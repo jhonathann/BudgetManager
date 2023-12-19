@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: rebeccapurple;
+  background-color: #2f1254;
 }
 .addButton {
   position: fixed;
@@ -10,17 +10,18 @@
   height: 5vw;
   bottom: 5%;
   right: 5%;
-  background-color: darkgreen;
+  background-color: #104416;
   border-radius: 50%;
+  box-shadow: 1px 1px;
 }
 .addButton:hover {
-  background-color: darkred;
+  background-color: #2f1254;
   border-radius: 25%;
   transition: 0.3s;
 }
 
 .addButton:active {
-  background-color: darkblue;
+  background-color: rgb(187, 187, 216);
   border-radius: 50%;
   transition: 0.3s;
 }
