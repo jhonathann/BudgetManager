@@ -1,3 +1,25 @@
-.nuevaClase{
-    background-color: green;
+.form{
+    background-image:linear-gradient(180deg, rgb(114, 70, 219) 0%, #7b64b9 70%);
+    color: whitesmoke;
+    padding: 30px;
+    margin: auto;
+    width: 400px;   
 }
+
+.field{
+    width: 340px;
+    padding: 10px;
+}
+
+.field:focus{
+    border-width: 5px;
+    border-color: green;
+}
+
+.container{
+        display: flex;
+        justify-content: center; /* Centrado horizontal */
+        align-items: center;     /* Centrado vertical */
+        height: auto;
+        width: 200px;       
+    }

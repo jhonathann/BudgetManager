@@ -1,22 +1,25 @@
 @page "/NuevoMovimiento"
 
-<h1>Nuevo Movimiento</h1>
 
-<form class = "nuevaClase">
-     <br>Descripción: <input type="text" @bind="descripcion" placeholder="Expense or Purchase"><br>
-     <br>Monto: <input type="number" @bind=monto><br>
-     <br>Categoría:
-     <select @bind="categoria">
+<form class = "form">
+     <h1>Nuevo Movimiento</h1>
+     <br><p>Descripción:</p>
+     <input class = "field" type="text" @bind="descripcion" placeholder="Expense or Purchase"><br>
+
+     <br><p>Monto:</p>
+     <input class = "field" type="number" @bind=monto><br>
+
+     <br><p>Categoría:</p>
+     <select class = "field" @bind="categoria">
           <option value="@Categoria.Gasto">@Categoria.Gasto</option>
           <option value="@Categoria.Lujo">@Categoria.Lujo</option>
           <option value="@Categoria.Viaje">@Categoria.Viaje</option>
           <option value="@Categoria.Donacion">@Categoria.Donacion</option>
           <option value="@Categoria.Educacion">@Categoria.Educacion</option>
           <option value="@Categoria.Imprevisto">@Categoria.Imprevisto</option>
-     </select>       
-     <br>
+     </select><br>
      
-     <input type="button" @onclick="Agregar" value="Agregar">
+     <br><input class = "container" type="button" @onclick="Agregar" value="Agregar">
 </form>
 
 
