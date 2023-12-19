@@ -1,8 +1,8 @@
-@page "/Test"
+@page "/NuevoMovimiento"
 
-<h1>Nueva Transacción</h1>
+<h1>Nuevo Movimiento</h1>
 
-<form>
+<form class = "nuevaClase">
      <br>Descripción: <input type="text" @bind="descripcion" placeholder="Expense or Purchase"><br>
      <br>Monto: <input type="number" @bind=monto><br>
      <br>Categoría:
@@ -25,25 +25,12 @@
 @code {
      private string descripcion = "";
      private int monto = 0;
-     private string categoria = "";
+     private Categoria categoria;
+
+     Movimiento mov = new Movimiento(5000,"", Categoria.Viaje);     
 
 void Agregar(){
-     //ManagerDeMovimentos.AddMovement();
-     }
-
-     /*Transaction transaction = new();
-     public class Transaction
-     {
-          public TransactionType type;
-          public float Amount { get; set; }
-     }
-     public enum TransactionType
-     {
-          Gasto,
-          Lujo,
-          Viaje,
-          Educación,
-          Donacion,
-          Imprevisto
-     }*/
+     ManagerDeMovimentos.AddMovement(new Movimiento(monto,descripcion,categoria));
+     ManagerDeMovimentos.MostrarMovimientos();
+     }     
 }
