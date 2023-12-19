@@ -1,0 +1,49 @@
+@page "/Test"
+
+<h1>Nueva Transacción</h1>
+
+<form>
+     <br>Descripción: <input type="text" @bind="descripcion" placeholder="Expense or Purchase"><br>
+     <br>Monto: <input type="number" @bind=monto><br>
+     <br>Categoría:
+     <select @bind="categoria">
+          <option value="@Categoria.Gasto">@Categoria.Gasto</option>
+          <option value="@Categoria.Lujo">@Categoria.Lujo</option>
+          <option value="@Categoria.Viaje">@Categoria.Viaje</option>
+          <option value="@Categoria.Donacion">@Categoria.Donacion</option>
+          <option value="@Categoria.Educacion">@Categoria.Educacion</option>
+          <option value="@Categoria.Imprevisto">@Categoria.Imprevisto</option>
+     </select>       
+     <br>
+     
+     <input type="button" @onclick="Agregar" value="Agregar">
+</form>
+
+
+
+
+@code {
+     private string descripcion = "";
+     private int monto = 0;
+     private string categoria = "";
+
+void Agregar(){
+     //ManagerDeMovimentos.AddMovement();
+     }
+
+     /*Transaction transaction = new();
+     public class Transaction
+     {
+          public TransactionType type;
+          public float Amount { get; set; }
+     }
+     public enum TransactionType
+     {
+          Gasto,
+          Lujo,
+          Viaje,
+          Educación,
+          Donacion,
+          Imprevisto
+     }*/
+}
