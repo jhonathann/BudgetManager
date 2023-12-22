@@ -1,25 +1,60 @@
-.form{
-    background-image:linear-gradient(180deg, rgb(114, 70, 219) 0%, #7b64b9 70%);
-    color: whitesmoke;
-    padding: 30px;
-    margin: auto;
-    width: 400px;   
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--color-surface-mixed-violet-100);
+  padding: 1%;
+  margin: 1%;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  border: 5px double var(--color-violet-100);
 }
 
-.field{
-    width: 340px;
-    padding: 10px;
+.field {
+  width: 80%;
+  height: 10%;
+  background-color: var(--color-surface-mixed-violet-300);
+  border: none;
+  border-radius: 10px;
+  color: var(--color-violet-600);
 }
 
-.field:focus{
-    border-width: 5px;
-    border-color: green;
+.field:focus {
+  border: 3px solid var(--color-violet-200);
 }
 
-.container{
-        display: flex;
-        justify-content: center; /* Centrado horizontal */
-        align-items: center;     /* Centrado vertical */
-        height: auto;
-        width: 200px;       
-    }
+p {
+  display: flex;
+  margin: 0;
+  color: var(--color-violet-500);
+  font-size: 1.5vw;
+}
+
+h1 {
+  display: flex;
+  color: var(--color-violet-400);
+  font-size: 2.5vw;
+}
+
+.button {
+  height: 10%;
+  width: 25%;
+  padding: 1%;
+  margin: 1%;
+  background-color: var(--color-violet-100);
+  border: 2px solid var(--color-surface-mixed-violet-100);
+  border-radius: 10px;
+  color: var(--color-violet-600);
+}
+
+.button:hover {
+  background-color: var(--color-violet-300);
+  transition: all 0.25s;
+}
+
+.button:active {
+  background-color: var(--color-violet-600);
+  transition: all 0.25s;
+}
