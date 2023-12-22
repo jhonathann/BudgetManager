@@ -1,0 +1,14 @@
+<div class="movimiento">
+     <p>@Cantidad</p>
+     <p>@Categoria</p>
+     <p>@Descripcion</p>
+</div>
+
+@code {
+     [Parameter]
+     public Categoria Categoria { get; set; }
+     [Parameter]
+     public int Cantidad { get; set; } = 0;
+     [Parameter]
+     public string Descripcion { get; set; } = "";
+}
