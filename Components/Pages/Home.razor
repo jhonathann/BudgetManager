@@ -16,9 +16,9 @@
 
      }
 
-     @foreach (Movimiento movimiento in ManagerDeMovimentos.ObtenerMOvimientos())
+     @foreach (Movement movement in Movement.movements)
      {
-          <MovementCard Categoria=@movimiento.Tipo Cantidad=@movimiento.Amount Descripcion=@movimiento.Descripcion />
+          <MovementCard Quantity=@movement.Amount Rubro=@movement.rubro />
      }
 </div>
 

@@ -1,14 +1,13 @@
 <div class="movimiento">
-     <p>@Cantidad</p>
-     <p>@Categoria</p>
-     <p>@Descripcion</p>
+     <p>@Quantity</p>
+     <p>@Rubro.Name</p>
+     <p>@Rubro.concept.Name</P>
+     <p>@Rubro.concept.category.Name</p>
 </div>
 
 @code {
      [Parameter]
-     public Categoria Categoria { get; set; }
+     public int Quantity { get; set; } = 0;
      [Parameter]
-     public int Cantidad { get; set; } = 0;
-     [Parameter]
-     public string Descripcion { get; set; } = "";
+     public Rubro Rubro {get; set;}
 }
