@@ -1,0 +1,29 @@
+@page "/Category"
+
+<form>
+<h1>Nueva Categoría</h1>
+
+     <p>Categoría:</p>
+     <input class="field" type="text" @bind=categoryName>
+
+     <p>Concepto:</p>
+     <input class="field" type="text" @bind=conceptName>
+
+     <p>Rubro:</p>
+     <input class="field" type="text" @bind=rubroName>
+     
+<input class="button" type="button" @onclick="AddRubro" value="Crear">
+
+</form>
+
+@code{
+
+    private string categoryName = "";
+    private string conceptName = "";
+    private string rubroName = "";
+    void AddRubro(){
+       
+       Rubro rubro = new Rubro(rubroName, new Concept(conceptName, new Category(categoryName)));
+       Console.WriteLine($"{rubro.Name} {rubro.concept.Name} {rubro.concept.category.Name}");
+    }        
+}

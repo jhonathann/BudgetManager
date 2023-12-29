@@ -1,14 +1,13 @@
 <form class="form">
      <h1>Nuevo Movimiento</h1>
 
-
      <p>Monto:</p>
      <input class="field" type="number" @bind=amount>
 
      <p>Rubro:</p>
      <select class="field" @bind="rubroName">
-          @foreach(Rubro rubro in Rubro.rubros){
-               <option value="@rubro.Name">@rubro.Name</option>
+          @foreach(KeyValuePair<string,Rubro> rubro in Rubro.rubros){
+               <option value="@rubro.Key">@rubro.Key</option>
           }
      </select>
 
@@ -16,27 +15,20 @@
 
 </form>
 
-@code {
-     private int amount = 1000;
-     private string rubroName = "";
+@code{
 
-     Rubro rubro1 = new Rubro("Mercado", new Concept("Vivienda", new Category("Gasto")));
-     Rubro rubro2 = new Rubro("Nury", new Concept("Vivienda", new Category("Gasto")));
-     Rubro rubro3 = new Rubro("Cine", new Concept("Diversión", new Category("Lujo")));
-
+private int amount = 1000;
+     private static string rubroName = "";
+     
      Rubro RetrieveRubro(string rubroName){
-          Rubro resultado = null;
-          foreach(Rubro rubro in Rubro.rubros){
-               if(rubroName==rubro.Name){
-                    resultado = rubro;
-               }
-          }
-          return resultado;
+          return Rubro.rubros[rubroName];
      }
      
      void AddMovement()
      {
           Rubro rubro = RetrieveRubro(rubroName);
           new Movement(amount, rubro);
-     }
+     }     
+}
+
 }

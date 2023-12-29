@@ -1,5 +1,5 @@
 public class Rubro{
-    public static List<Rubro> rubros = new List<Rubro>();
+    public static Dictionary<string,Rubro> rubros = new Dictionary<string, Rubro>();
     public string Name {get; set;}
     
     public Concept concept;
@@ -7,7 +7,7 @@ public class Rubro{
     public Rubro(string name, Concept concept){
         Name = name;
         this.concept = concept;
-        rubros.Add(this);
+        rubros.Add(Name,this);
     }
 }
 
