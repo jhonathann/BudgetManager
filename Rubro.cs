@@ -1,5 +1,7 @@
 public class Rubro{
-    public static Dictionary<string,Rubro> rubros = new Dictionary<string, Rubro>();
+    public static Dictionary<int,Rubro> rubros = new();
+    private static int idCount = 0;
+    public int Id {get; private set;}
     public string Name {get; set;}
     
     public Concept concept;
@@ -7,7 +9,9 @@ public class Rubro{
     public Rubro(string name, Concept concept){
         Name = name;
         this.concept = concept;
-        rubros.Add(Name,this);
+        idCount++;
+        Id=idCount;
+        rubros.Add(Id,this);
     }
 }
 

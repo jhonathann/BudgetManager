@@ -1,10 +1,10 @@
 
     public class Category{
-    public static List<Category> categories = new List<Category>();
+    public static Dictionary<string, Category> categories = new();
     public string Name {get; set;}
 
     public Category(string name){
         Name = name;
-        categories.Add(this);
+        categories.Add(Name, this);
     }
 }

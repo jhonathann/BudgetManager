@@ -51,3 +51,13 @@
   transform: translate(-25%, -50%);
   animation: fadeIn 0.25s ease-in-out 0s alternate;
 }
+
+.nuevaCategoria {
+  position: fixed;
+  width: 30%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-25%, -50%);
+  animation: fadeIn 0.25s ease-in-out 0s alternate;
+}

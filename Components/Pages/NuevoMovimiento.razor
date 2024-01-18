@@ -5,9 +5,9 @@
      <input class="field" type="number" @bind=amount>
 
      <p>Rubro:</p>
-     <select class="field" @bind="rubroName">
-          @foreach(KeyValuePair<string,Rubro> rubro in Rubro.rubros){
-               <option value="@rubro.Key">@rubro.Key</option>
+     <select class="field" @bind="rubroId">
+          @foreach(KeyValuePair<int,Rubro> rubro in Rubro.rubros){
+               <option value="@rubro.Value.Id">@rubro.Value.Name</option>
           }
      </select>
 
@@ -17,16 +17,16 @@
 
 @code{
 
-private int amount = 1000;
-     private static string rubroName = "";
+     private int amount = 1000;
+     private static int rubroId = 0;
      
-     Rubro RetrieveRubro(string rubroName){
-          return Rubro.rubros[rubroName];
+     Rubro RetrieveRubro(int rubroId){
+          return Rubro.rubros[rubroId];
      }
      
-     void AddMovement()
+     public void AddMovement()
      {
-          Rubro rubro = RetrieveRubro(rubroName);
+          Rubro rubro = RetrieveRubro(rubroId);
           new Movement(amount, rubro);
      }     
 }

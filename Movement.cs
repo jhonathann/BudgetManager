@@ -8,7 +8,9 @@ public class Movement{
         /// </summary>
         /// <value></value>
         public int Amount {get; set;}
-        public Rubro rubro;
+        public Rubro rubro {get;}        
+        public DateTime CreationDate { get;}
+        
 
         /// <summary>
         /// Crea un nuevo movimiento
@@ -19,6 +21,7 @@ public class Movement{
         public Movement(int amount, Rubro rubro){
             Amount = amount;
             this.rubro = rubro;
+            CreationDate = DateTime.Now;
             movements.Add(this);
         }
 }

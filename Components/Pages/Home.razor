@@ -8,6 +8,7 @@
                     fill="#ffffff" />
           </svg>
      </button>
+     
      @if (mostrarNuevoMovimiento)
      {
           <div class="nuevoMovimiento">
@@ -19,7 +20,7 @@
 
      @foreach (Movement movement in Movement.movements)
      {
-          <MovementCard Quantity=@movement.Amount Rubro=@movement.rubro />
+          <MovementCard Movement=@movement />
      }
 </div>
 
