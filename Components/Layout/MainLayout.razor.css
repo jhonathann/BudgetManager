@@ -37,7 +37,6 @@
 }
 
 .page {
-  position: relative;
   display: flex;
   flex-direction: row;
   width: 100vw;
@@ -47,6 +46,7 @@
 }
 
 .sidebar {
+  display: flex;
   width: 20%;
   height: 100%;
   background-image: linear-gradient(135deg, var(--color-green-100) 20%, var(--color-violet-100) 80%);
