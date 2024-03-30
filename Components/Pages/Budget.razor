@@ -1,51 +1,79 @@
 @page "/Budget"
+<div class="general">
 <h1>Budget</h1>
-<div>
-     <div>
-          <button>
-               <svg xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                         d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
-               </svg>
-          </button>
-          <h2>@year</h2>
-          <button>
-               <svg xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                         d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
-               </svg>
-          </button>
-     </div>
-     <div>
-          <button>
-               <svg xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                         d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
-               </svg>
-          </button>
-          <h2>@month</h2>
-          <button>
-               <svg xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                         d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
-               </svg>
-          </button>
-     </div>
-     @foreach (KeyValuePair<string, Category> category in Category.categories)
-     {
-          <div>
-               <p>@category.Value.Name</p>
+     <div class="panel">
+          <div class=topPanel>
+               <div class="selectorRow">
+                    <button class="navButton" @onclick="()=>UpdateInfo(year-1,month)">
+                         <svg xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                              <path
+                                   d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+                         </svg>
+                    </button>
+                    <h2>@year</h2>
+                    <button class="navButton" @onclick="()=>UpdateInfo(year+1,month)">
+                         <svg xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                              <path
+                                   d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+                         </svg>
+                    </button>
+               </div>
+               <div class="selectorRow">
+                    <button class="navButton"  @onclick="()=>UpdateInfo(year,month-1)">
+                         <svg xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                              <path
+                                   d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+                         </svg>
+                    </button>
+                    <h2>@IntMonthToStringMonth(month)</h2>
+                    <button class="navButton" @onclick="()=>UpdateInfo(year,month+1)">
+                         <svg xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                              <path
+                                   d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+                         </svg>
+                    </button>
+               </div>
           </div>
-
-     }
+          <div class="bottomPanel">
+               <div class=budgetInfo>
+                    <h3>Category</h3>
+                    <h3>Amount (%)</h3>
+               </div>
+               @foreach (KeyValuePair<string, float> category in budgetValues)
+               {
+                    <div class="budgetInfo">
+                         <p>@category.Key.</p>
+                         <input type="number" value="@category.Value" @onchange="(ChangeEventArgs args)=>OnBudgetModified(args,category.Key)">
+                    </div>
+               }
+          </div>
+     </div>
 </div>
 
-
 @code {
-     int month = DateTime.Now.Month;
-     int year = DateTime.Now.Year;
+    static int month = DateTime.Now.Month;
+    static int year = DateTime.Now.Year;
+    Dictionary<string, float> budgetValues = new(BudgetController.GetBudgetInfo(year, month));
+    void UpdateInfo(int newYear, int newMonth)
+    {
+        if(newYear>DateTime.Now.Year) return;
+        if(newMonth<1 || newMonth>12) return;
+        year = newYear;
+        month = newMonth;
+        budgetValues = BudgetController.GetBudgetInfo(newYear, newMonth);
+    }
+    private string IntMonthToStringMonth(int month){
+        string[] months = { "January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December" };
+        return months[month - 1];
+    }
+
+    private void OnBudgetModified(ChangeEventArgs args,string categoryName){
+        float newValue = float.Parse(args.Value.ToString());
+        BudgetController.ModifyBudget(year, month, categoryName, newValue);
+        UpdateInfo(year,month);//To trigger immediate update of the page
+    }
 }

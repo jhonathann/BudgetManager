@@ -6,7 +6,7 @@
 
      <p>Rubro:</p>
      <select class="field" @bind="rubroId">
-          @foreach (KeyValuePair<int, Rubro> rubro in Rubro.rubros)
+          @foreach (KeyValuePair<int, Rubro> rubro in Rubro.Rubros)
           {
                <option value="@rubro.Value.Id">@rubro.Value.Name</option>
           }
@@ -24,7 +24,7 @@
 
      Rubro RetrieveRubro(int rubroId)
      {
-          return Rubro.rubros[rubroId];
+          return Rubro.Rubros[rubroId];
      }
 
      public void AddMovement()

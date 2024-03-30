@@ -1,11 +1,13 @@
 
 public class Category
 {
-    public static Dictionary<string, Category> categories = new();
-    public string Name { get; set; }
+    public static event Action<Category>? CategoryCreated;
+    public static Dictionary<string, Category> Categories { get; private set; } = new();
+    public string Name { get; private set; }
     public Category(string name)
     {
         Name = name;
-        categories.Add(Name, this);
+        Categories.Add(Name, this);
+        CategoryCreated?.Invoke(this);
     }
 }

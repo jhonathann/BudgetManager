@@ -19,6 +19,7 @@
   border: none;
   border-radius: 10px;
   color: var(--color-violet-600);
+  text-align: center;
 }
 
 .field:focus {
@@ -57,4 +58,10 @@ h1 {
 .button:active {
   background-color: var(--color-violet-600);
   transition: all 0.25s;
+}
+
+/*To Remove the arrows in the number fields*/
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  appearance: none;
 }

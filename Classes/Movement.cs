@@ -1,28 +1,26 @@
 /// <summary>
 /// Clase movimiento encargada de definir el comportamiento de los movimientos
 /// </summary>
-public class Movement{
-        public static List<Movement> movements = new();
-        /// <summary>
-        /// Cantidad del movimiento
-        /// </summary>
-        /// <value></value>
-        public int Amount {get; set;}
-        public Rubro rubro {get;}        
-        public DateTime CreationDate { get;}
-        
+public class Movement
+{
+    public static List<Movement> Movements { get; private set; } = new();
+    public int Amount { get; private set; }
+    public Rubro Rubro { get; private set; }
+    public DateTime CreationDate { get; private set; }
 
-        /// <summary>
-        /// Crea un nuevo movimiento
-        /// </summary>
-        /// <param name="amount">El valor del movimiento</param>
-        /// <param name="rubro">Descripción del movimiento</param>
-        
-        public Movement(int amount, Rubro rubro){
-            Amount = amount;
-            this.rubro = rubro;
-            CreationDate = DateTime.Now;
-            movements.Add(this);
-        }
+
+    /// <summary>
+    /// Crea un nuevo movimiento
+    /// </summary>
+    /// <param name="amount">El valor del movimiento</param>
+    /// <param name="rubro">Descripción del movimiento</param>
+
+    public Movement(int amount, Rubro rubro)
+    {
+        Amount = amount;
+        this.Rubro = rubro;
+        CreationDate = DateTime.Now;
+        Movements.Add(this);
+    }
 }
 
