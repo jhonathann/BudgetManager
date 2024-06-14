@@ -1,0 +1,77 @@
+.pop-up {
+     position: absolute;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0, 0, 0, 0.5);
+     z-index: 1;
+     animation: fadeIn 0.25s ease-in-out 0s alternate;
+}
+
+@keyframes fadeIn {
+     0% {
+          scale: 0%;
+     }
+
+     100% {
+          scale: 100%;
+     }
+}
+
+form {
+     display: flex;
+     flex-direction: column;
+     justify-content: space-evenly;
+     align-items: center;
+     background-color: var(--color-surface-mixed-green-100);
+     padding: 1%;
+     margin: 1%;
+     width: 30%;
+     height: 40%;
+     border-radius: 30px;
+     border: 5px double var(--color-green-100);
+}
+
+.field {
+     width: 80%;
+     height: 10%;
+     background-color: var(--color-surface-mixed-green-300);
+     border: none;
+     border-radius: 10px;
+     color: var(--color-green-600);
+}
+
+.field:focus {
+     border: 3px solid var(--color-green-200);
+     outline: none;
+}
+
+h1 {
+     display: flex;
+     color: var(--color-green-400);
+     font-size: 2.5vw;
+}
+
+.button {
+     height: 10%;
+     width: 25%;
+     padding: 1%;
+     margin: 1%;
+     background-color: var(--color-green-100);
+     border: 2px solid var(--color-surface-mixed-green-100);
+     border-radius: 10px;
+     color: var(--color-green-600);
+}
+
+.button:hover {
+     background-color: var(--color-green-300);
+     transition: all 0.25s;
+}
+
+.button:active {
+     background-color: var(--color-green-600);
+     transition: all 0.25s;
+}

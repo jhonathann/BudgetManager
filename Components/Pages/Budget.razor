@@ -1,6 +1,6 @@
 @page "/Budget"
 <div class="general">
-<h1>Budget</h1>
+     <h1>Budget</h1>
      <div class="panel">
           <div class=topPanel>
                <div class="selectorRow">
@@ -21,7 +21,7 @@
                     </button>
                </div>
                <div class="selectorRow">
-                    <button class="navButton"  @onclick="()=>UpdateInfo(year,month-1)">
+                    <button class="navButton" @onclick="()=>UpdateInfo(year,month-1)">
                          <svg xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                               <path
@@ -46,8 +46,9 @@
                @foreach (KeyValuePair<string, float> category in budgetValues)
                {
                     <div class="budgetInfo">
-                         <p>@category.Key.</p>
-                         <input type="number" value="@category.Value" @onchange="(ChangeEventArgs args)=>OnBudgetModified(args,category.Key)">
+                         <p>@category.Key</p>
+                         <input type="number" value="@category.Value"
+                              @onchange="(ChangeEventArgs args)=>OnBudgetModified(args,category.Key)">
                     </div>
                }
           </div>
@@ -55,25 +56,28 @@
 </div>
 
 @code {
-    static int month = DateTime.Now.Month;
-    static int year = DateTime.Now.Year;
-    Dictionary<string, float> budgetValues = new(BudgetController.GetBudgetInfo(year, month));
-    void UpdateInfo(int newYear, int newMonth)
-    {
-        if(newYear>DateTime.Now.Year) return;
-        if(newMonth<1 || newMonth>12) return;
-        year = newYear;
-        month = newMonth;
-        budgetValues = BudgetController.GetBudgetInfo(newYear, newMonth);
-    }
-    private string IntMonthToStringMonth(int month){
-        string[] months = { "January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December" };
-        return months[month - 1];
-    }
+     static int month = DateTime.Now.Month;
+     static int year = DateTime.Now.Year;
+     Dictionary<string, float> budgetValues = new(BudgetController.GetBudgetInfo(year, month));
+     void UpdateInfo(int newYear, int newMonth)
+     {
+          if (newYear > DateTime.Now.Year) return;
+          if (newMonth < 1 || newMonth > 12) return;
+          year = newYear;
+          month = newMonth;
+          budgetValues = BudgetController.GetBudgetInfo(newYear, newMonth);
+     }
+     private string IntMonthToStringMonth(int month)
+     {
+          string[] months = { "January", "February", "March", "April", "May", "June","July", "August", "September", "October",
+"November", "December" };
+          return months[month - 1];
+     }
 
-    private void OnBudgetModified(ChangeEventArgs args,string categoryName){
-        float newValue = float.Parse(args.Value.ToString());
-        BudgetController.ModifyBudget(year, month, categoryName, newValue);
-        UpdateInfo(year,month);//To trigger immediate update of the page
-    }
+     private void OnBudgetModified(ChangeEventArgs args, string categoryName)
+     {
+          float newValue = float.Parse(args.Value.ToString());
+          BudgetController.ModifyBudget(year, month, categoryName, newValue);
+          UpdateInfo(year, month);//To trigger immediate update of the page
+     }
 }

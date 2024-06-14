@@ -1,20 +1,23 @@
-<form class="form">
-     <h1>Nuevo Movimiento</h1>
+<div class="pop-up">
+     <form class="form">
+          <h1>Nuevo Movimiento</h1>
 
-     <p>Monto:</p>
-     <input class="field" type="number" @bind=amount>
+          <p>Monto:</p>
+          <input class="field" type="number" @bind=amount>
 
-     <p>Rubro:</p>
-     <select class="field" @bind="rubroId">
-          @foreach (KeyValuePair<int, Rubro> rubro in Rubro.Rubros)
-          {
-               <option value="@rubro.Value.Id">@rubro.Value.Name</option>
-          }
-     </select>
+          <p>Rubro:</p>
+          <select class="field" @bind="rubroId">
+               @foreach (KeyValuePair<int, Rubro> rubro in Rubro.Rubros)
+               {
+                    <option value="@rubro.Value.Id">@rubro.Value.Name</option>
+               }
+          </select>
 
-     <input class="button" type="button" @onclick="AddMovement" value="Añadir">
+          <input class="button" type="button" @onclick="AddMovement" value="Añadir">
 
-</form>
+     </form>
+</div>
+
 
 @code {
      [Parameter]
@@ -33,6 +36,4 @@
           new Movement(amount, rubro);
           Toggle?.Invoke();
      }
-}
-
 }

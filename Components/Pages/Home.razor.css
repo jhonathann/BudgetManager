@@ -31,33 +31,3 @@
   border-radius: 50%;
   transition: 0.25s;
 }
-
-@keyframes fadeIn {
-  0% {
-    scale: 0%;
-  }
-
-  100% {
-    scale: 100%;
-  }
-}
-
-.nuevoMovimiento {
-  position: fixed;
-  width: 30%;
-  height: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-25%, -50%);
-  animation: fadeIn 0.25s ease-in-out 0s alternate;
-}
-
-.nuevaCategoria {
-  position: fixed;
-  width: 30%;
-  height: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-25%, -50%);
-  animation: fadeIn 0.25s ease-in-out 0s alternate;
-}

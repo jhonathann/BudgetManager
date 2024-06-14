@@ -18,7 +18,7 @@ public class Movement
     public Movement(int amount, Rubro rubro)
     {
         Amount = amount;
-        this.Rubro = rubro;
+        Rubro = rubro;
         CreationDate = DateTime.Now;
         Movements.Add(this);
     }

@@ -8,4 +8,52 @@
     <main>
         @Body
     </main>
+    @if (showInformation)
+    {
+        <InformationWindow Toggle=@Toggle Title=@Title Message=@Message />
+    }
 </div>
+@code {
+    /// <summary>
+    /// Variable to show/hide the information window
+    /// </summary>
+    private static bool showInformation = false;
+    /// <summary>
+    /// The Title of the information window
+    /// </summary>
+    /// <value></value>
+    private static string Title { get; set; } = "Error";
+    /// <summary>
+    /// The Message of the information Window
+    /// </summary>
+    /// <value></value>
+    private static string Message { get; set; } = "Message";
+    /// <summary>
+    /// Delegate used to encapsulate the statehaschanged method to be able to use it statically
+    /// </summary>
+    /// <value></value>
+    private static Action? OnToggle { get; set; }
+    /// <summary>
+    /// Method used to display the information window
+    /// </summary>
+    /// <param name="title">The title of the message</param>
+    /// <param name="message">The message to be displayed</param>
+    public static void DisplayInformation(string title, string message)
+    {
+        Message = message;
+        Title = title;
+        Toggle();
+    }
+    private static void Toggle()
+    {
+        showInformation = !showInformation;
+        OnToggle?.Invoke(); //Needed when a child invokes this method to rerender the page
+    }
+
+    protected override void OnInitialized()
+    {
+        /*Populates the delegate with the StateHasChanged method, necesary to be able to use the StateHasChanged method
+        statically*/
+        OnToggle = () => StateHasChanged();
+    }
+}
