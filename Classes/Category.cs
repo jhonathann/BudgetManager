@@ -6,7 +6,7 @@ public class Category
     public static Dictionary<string, Category> Categories { get; private set; } = new();
     public string Name { get; private set; } = "";
     public Dictionary<string, Concept> Concepts { get; private set; } = new();
-    public Category(string name)
+    public Category(string name, bool uploadData = true)
     {
         //First check if the name is already in the dictionary
         if (Categories.ContainsKey(name))
@@ -17,5 +17,7 @@ public class Category
         Name = name;
         Categories.Add(Name, this);
         CategoryCreated?.Invoke(this);
+        //Uploads the data to the database
+        if (uploadData) DatabaseManager.CategoryTreeDataChanged.Invoke();
     }
 }

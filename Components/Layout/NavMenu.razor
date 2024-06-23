@@ -1,4 +1,6 @@
-﻿<nav>
+﻿@using Microsoft.Extensions.Configuration
+
+<nav>
     <a class="tab" href="/">
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff"
@@ -52,5 +54,16 @@
     {
         mostrarNuevaCategoria = !mostrarNuevaCategoria;
         StateHasChanged(); //Needed when a child invokes this method to rerender the page
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        //Load the data of the category tree
+        await DatabaseManager.LoadCategoryTreeData.Invoke();
+        StateHasChanged();
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
     }
 }

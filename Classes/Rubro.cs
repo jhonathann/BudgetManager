@@ -22,6 +22,21 @@ public class Rubro
         Id = IdCount;
         Rubros.Add(Id, this);
         Concept.Rubros.Add(Name, this);
+        DatabaseManager.CategoryTreeDataChanged.Invoke();
+    }
+    //Constructor for deserialization
+    public Rubro(string name, Concept concept, int id)
+    {
+        Name = name;
+        Concept = concept;
+        Id = id;
+        //If im adding a higher id, the idcount will start higher
+        if (Id > IdCount)
+        {
+            IdCount = Id;
+        }
+        Rubros.Add(Id, this);
+        Concept.Rubros.Add(Name, this);
     }
 }
 

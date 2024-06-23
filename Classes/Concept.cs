@@ -22,5 +22,21 @@ public class Concept
         Id = IdCount;
         Concepts.Add(Id, this);
         Category.Concepts.Add(Name, this);
+        DatabaseManager.CategoryTreeDataChanged.Invoke();
+    }
+
+    //Constructor for deserialization
+    public Concept(string name, Category category, int id)
+    {
+        Name = name;
+        Category = category;
+        Id = id;
+        //If im adding a higher id, the idcount will start higher
+        if (Id > IdCount)
+        {
+            IdCount = Id;
+        }
+        Concepts.Add(Id, this);
+        Category.Concepts.Add(Name, this);
     }
 }
