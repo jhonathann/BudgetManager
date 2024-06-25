@@ -1,10 +1,9 @@
 using BudgetManager.Components.Layout;
+using System.Text.Json.Serialization;
 public class Concept
 {
-    public static Dictionary<int, Concept> Concepts { get; private set; } = new();
-    public static int IdCount { get; private set; } = 0;
-    public int Id { get; private set; }
     public string Name { get; private set; } = "";
+    [JsonIgnore]
     public Category Category { get; private set; }
     public Dictionary<string, Rubro> Rubros { get; private set; } = new();
 
@@ -13,30 +12,30 @@ public class Concept
         //First check if the name is already in the dictionary
         if (category.Concepts.ContainsKey(name))
         {
-            MainLayout.DisplayInformation("Error", "Ya existe un concepto con este nombre");
+            MainLayout.DisplayInformationWindow("Error", "Ya existe un concepto con este nombre");
             return;
         }
         Name = name;
         Category = category;
-        IdCount++;
-        Id = IdCount;
-        Concepts.Add(Id, this);
         Category.Concepts.Add(Name, this);
         DatabaseManager.CategoryTreeDataChanged.Invoke();
     }
-
-    //Constructor for deserialization
-    public Concept(string name, Category category, int id)
+    public void Rename(string newName)
     {
-        Name = name;
-        Category = category;
-        Id = id;
-        //If im adding a higher id, the idcount will start higher
-        if (Id > IdCount)
+        //First check if the name is already in the dictionary
+        if (Category.Concepts.ContainsKey(newName))
         {
-            IdCount = Id;
+            MainLayout.DisplayInformationWindow("Error", "Ya existe un concepto con este nombre");
+            return;
         }
-        Concepts.Add(Id, this);
+        Category.Concepts.Remove(Name);
+        Name = newName;
         Category.Concepts.Add(Name, this);
+        DatabaseManager.CategoryTreeDataChanged.Invoke();
+    }
+    public void Delete()
+    {
+        Category.Concepts.Remove(Name);
+        DatabaseManager.CategoryTreeDataChanged.Invoke();
     }
 }

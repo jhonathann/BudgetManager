@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@using BudgetManager.Components.HelperOverlays
 
 <div class="colorPalette page">
     <div class="sidebar">
@@ -10,46 +11,76 @@
     </main>
     @if (showInformation)
     {
-        <InformationWindow Toggle=@Toggle Title=@Title Message=@Message />
+        <InformationWindow Toggle=@ToggleInformationWindow Title=@InformationTitle Message=@InformationMessage
+            AskForConfirmation=@InformationAskForConfirmation Continue=@InformationContinue Cancel=@InformationCancel />
+    }
+    @if (showInput)
+    {
+        <InputValueWindow Toggle="@ToggleInputWindow" Title="@InputTitle" InputType=@InputType Placeholder=@InputPlaceHolder
+            SubmitAction=@InputSubmitAction />
     }
 </div>
 @code {
-    /// <summary>
-    /// Variable to show/hide the information window
-    /// </summary>
+    // Variables to control the information window
     private static bool showInformation = false;
-    /// <summary>
-    /// The Title of the information window
-    /// </summary>
-    /// <value></value>
-    private static string Title { get; set; } = "Error";
-    /// <summary>
-    /// The Message of the information Window
-    /// </summary>
-    /// <value></value>
-    private static string Message { get; set; } = "Message";
+    private static string InformationTitle { get; set; } = "Error";
+    private static string InformationMessage { get; set; } = "Message";
+    private static bool InformationAskForConfirmation { get; set; } = false;
+    private static Action? InformationContinue { get; set; } = null;
+    private static Action? InformationCancel { get; set; } = null;
+    // Variables to control the input window
+    private static bool showInput = false;
+    private static string InputTitle { get; set; } = "";
+    private static string InputType { get; set; } = "";
+    private static string InputPlaceHolder { get; set; } = "";
+    private static Action<string?>? InputSubmitAction { get; set; }
     /// <summary>
     /// Delegate used to encapsulate the statehaschanged method to be able to use it statically
     /// </summary>
-    /// <value></value>
     private static Action? OnToggle { get; set; }
     /// <summary>
-    /// Method used to display the information window
+    /// Displays a pop-up with the information
     /// </summary>
-    /// <param name="title">The title of the message</param>
-    /// <param name="message">The message to be displayed</param>
-    public static void DisplayInformation(string title, string message)
+    /// <param name="title">The Title of the window</param>
+    /// <param name="message">The mesasage of the window</param>
+    /// <param name="askForConfirmation">Do you want the user to confirm an action?</param>
+    /// <param name="continueAction">Action if the user confirms</param>
+    /// <param name="cancelAction">Action if the user doesn't confirm</param>
+    public static void DisplayInformationWindow(string title, string message, bool askForConfirmation = false, Action?
+    continueAction = null, Action? cancelAction = null)
     {
-        Message = message;
-        Title = title;
-        Toggle();
+        InformationMessage = message;
+        InformationTitle = title;
+        InformationAskForConfirmation = askForConfirmation;
+        InformationContinue = continueAction;
+        InformationCancel = cancelAction;
+        ToggleInformationWindow();
     }
-    private static void Toggle()
+    /// <summary>
+    /// Displays a pop-up and ask the user to fill a form
+    /// </summary>
+    /// <param name="title">The title of the window</param>
+    /// <param name="type">The type of the form field that will appear(must be a valid html type)</param>
+    /// <param name="placeholder">The placeholder for the field</param>
+    /// <param name="SubmitAction">The accion to be performed (it recieves the value of the user input)</param>
+    public static void DisplayInputValueWindow(string title, string type, string placeholder, Action<string?>? SubmitAction)
+    {
+        InputTitle = title;
+        InputType = type;
+        InputPlaceHolder = placeholder;
+        InputSubmitAction = SubmitAction;
+        ToggleInputWindow();
+    }
+    private static void ToggleInformationWindow()
     {
         showInformation = !showInformation;
         OnToggle?.Invoke(); //Needed when a child invokes this method to rerender the page
     }
-
+    private static void ToggleInputWindow()
+    {
+        showInput = !showInput;
+        OnToggle?.Invoke(); //Needed when a child invokes this method to rerender the page
+    }
     protected override void OnInitialized()
     {
         /*Populates the delegate with the StateHasChanged method, necesary to be able to use the StateHasChanged method

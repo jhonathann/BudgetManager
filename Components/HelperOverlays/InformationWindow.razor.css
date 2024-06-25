@@ -29,38 +29,66 @@
      justify-content: space-around;
      align-items: center;
      text-align: center;
-     border: 5px double var(--color-green-100);
+     background-color: var(--color-surface-mixed-violet-100);
+     border: 5px double var(--color-violet-100);
+     border-radius: 15px;
 }
 
 h1 {
-     color: var(--color-green-300);
+     color: var(--color-violet-500);
      margin: 0;
 }
 
 h2 {
-     color: var(--color-green-300);
+     color: var(--color-violet-600);
      margin: 0;
 }
 
+.buttonsContainer {
+     display: flex;
+     height: 15%;
+     width: 80%;
+     flex-direction: row;
+     justify-content: space-around;
+}
 
 button {
-     height: 15%;
-     width: 25%;
+     height: 100%;
+     width: 30%;
      padding: 1%;
      margin: 1%;
+}
+
+.okButton {
      background-color: var(--color-green-100);
      border: 2px solid var(--color-surface-mixed-green-100);
      border-radius: 10px;
      color: var(--color-green-600);
-     font-size: 1.5vw;
 }
 
-button:hover {
+.okButton:hover {
      background-color: var(--color-green-300);
      transition: all 0.25s;
 }
 
-button:active {
+.okButton:active {
      background-color: var(--color-green-600);
+     transition: all 0.25s;
+}
+
+.cancelButton {
+     background-color: #800000;
+     border: 2px solid #460000;
+     border-radius: 10px;
+     color: #C08080;
+}
+
+.cancelButton:hover {
+     background-color: #CC9999;
+     transition: all 0.25s;
+}
+
+.cancelButton:active {
+     background-color: #D9B3B3;
      transition: all 0.25s;
 }

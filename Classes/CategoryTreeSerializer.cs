@@ -41,10 +41,8 @@ public static class CategoryTreeSerializer
                {
                     //Checks if the concept has already been added
                     if (category.Concepts.ContainsKey(conceptKvp.Key)) continue;
-                    //Gets the concept Id
-                    int conceptId = conceptKvp.Value.GetProperty("Id").GetInt32();
                     //Creates the concept
-                    Concept concept = new(conceptKvp.Key, category, conceptId);
+                    Concept concept = new(conceptKvp.Key, category);
                     //Gets the Rubros as a dictionary
                     JsonElement rubrosJE = conceptKvp.Value.GetProperty("Rubros");
                     Dictionary<string, JsonElement> rubros = rubrosJE.Deserialize<Dictionary<string, JsonElement>>();
@@ -53,10 +51,8 @@ public static class CategoryTreeSerializer
                     {
                          //Checks if the rubro has already been added
                          if (concept.Rubros.ContainsKey(rubroKvp.Key)) continue;
-                         //Gets the rubro Id
-                         int rubroId = rubroKvp.Value.GetProperty("Id").GetInt32();
                          //Creates the rubro
-                         new Rubro(rubroKvp.Key, concept, rubroId);
+                         new Rubro(rubroKvp.Key, concept);
                     }
                }
           }

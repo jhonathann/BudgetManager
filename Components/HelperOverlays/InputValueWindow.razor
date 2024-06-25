@@ -1,0 +1,34 @@
+<div class="pop-up" @onclick="()=>Toggle?.Invoke()">
+     <form @onclick:stopPropagation>
+          <h1>@Title</h1>
+          <input class="field" type=@InputType placeholder=@PlaceHolder @bind=value @ref=@inputField>
+          <div class="buttonsContainer">
+               <input class="button okButton" type="button" @onclick=OnSubmit value="Ok">
+               <input class="button cancelButton" type="button" @onclick="()=>Toggle?.Invoke()" value="Cancelar">
+          </div>
+     </form>
+</div>
+
+
+@code {
+    [Parameter]
+    public Action? Toggle { get; set; }
+    [Parameter]
+    public string? Title { get; set; }
+    /// <summary>
+    /// The type of input for the field (Must be a valid html input type)
+    /// </summary>
+    [Parameter]
+    public string? InputType { get; set; }
+    [Parameter]
+    public string? PlaceHolder { get; set; }
+    [Parameter]
+    public Action<string?>? SubmitAction { get; set; }
+    private string? value;
+    private ElementReference inputField;
+    void OnSubmit()
+    {
+        SubmitAction?.Invoke(value);
+        Toggle?.Invoke();
+    }
+}

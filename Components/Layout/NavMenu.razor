@@ -1,6 +1,4 @@
-﻿@using Microsoft.Extensions.Configuration
-
-<nav>
+﻿<nav>
     <a class="tab" href="/">
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff"
@@ -23,15 +21,11 @@
     </a>
     <div class="separador"></div>
     <p>Categorías</p>
-    @foreach (KeyValuePair<string, Category> category in Category.Categories)
+    @foreach (KeyValuePair<string, Category> categoryKvp in Category.Categories)
     {
-        <a class="tab" href="CategoryView/@category.Value.Name">
-            <div>
-                <p>@category.Value.Name</p>
-            </div>
-        </a>
+        <CategoryMenuTab Category=@categoryKvp.Value Rerender="()=>this.StateHasChanged()"/>
     }
-    <button class="tab" @onclick="Toggle">
+    <button class="tab" @onclick=AddCategoryButtonOnClick>
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff"
                 viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -41,19 +35,15 @@
         </div>
     </button>
 </nav>
-@if (mostrarNuevaCategoria)
-{
-    <div class="nuevaCategoria">
-        <NewCategory Toggle=@Toggle />
-    </div>
-}
 
 @code {
-    bool mostrarNuevaCategoria = false;
-    void Toggle()
+    void AddCategoryButtonOnClick()
     {
-        mostrarNuevaCategoria = !mostrarNuevaCategoria;
-        StateHasChanged(); //Needed when a child invokes this method to rerender the page
+        MainLayout.DisplayInputValueWindow("Nueva Categoría", "text", "Nombre", (categoryName) =>
+        {
+            new Category(categoryName);
+            this.StateHasChanged();
+        });
     }
     protected override async Task OnInitializedAsync()
     {
@@ -61,9 +51,5 @@
         //Load the data of the category tree
         await DatabaseManager.LoadCategoryTreeData.Invoke();
         StateHasChanged();
-    }
-    protected override void OnAfterRender(bool firstRender)
-    {
-        base.OnAfterRender(firstRender);
     }
 }

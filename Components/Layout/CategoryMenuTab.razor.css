@@ -1,0 +1,42 @@
+.tab {
+     display: flex;
+     flex-direction: row;
+     width: 90%;
+     height: 5%;
+     justify-content: space-around;
+     align-items: center;
+     background-color: rgba(0, 0, 0, 0.5);
+     margin: 5px;
+     border-radius: 10px;
+     text-decoration: none;
+     color: aliceblue;
+     animation: fadeIn 0.25s ease-in-out 0s alternate;
+}
+
+.tab:hover {
+     background-color: rgba(0, 0, 0, 1);
+}
+
+@keyframes fadeIn {
+     0% {
+          scale: 0%;
+     }
+
+     100% {
+          scale: 100%;
+     }
+}
+
+svg {
+     height: 60%;
+     fill: aliceblue;
+     animation: fadeIn 0.15s ease-in-out 0s alternate;
+}
+
+.pen:hover {
+     fill: goldenrod;
+}
+
+.trashCan:hover {
+     fill: maroon;
+}

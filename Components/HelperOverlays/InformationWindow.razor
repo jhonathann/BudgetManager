@@ -1,0 +1,46 @@
+<div class="general">
+    <div class="container">
+        <h1>@Title</h1>
+        <h2>@Message</h2>
+        <div class="buttonsContainer">
+            @if (!AskForConfirmation)
+            {
+                <button @onclick=OkButton>Ok</button>
+            }
+            else
+            {
+                <button class="okButton" @onclick=OnContinue>Continue</button>
+                <button class="cancelButton" @onclick=OnCancel>Cancel</button>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Action? Toggle { get; set; }
+    [Parameter]
+    public string? Title { get; set; }
+    [Parameter]
+    public string? Message { get; set; }
+    [Parameter]
+    public bool AskForConfirmation { get; set; } = false;
+    [Parameter]
+    public Action? Continue { get; set; } = null;
+    [Parameter]
+    public Action? Cancel { get; set; } = null;
+    private void OkButton()
+    {
+        Toggle?.Invoke();
+    }
+    private void OnContinue()
+    {
+        Continue?.Invoke();
+        Toggle?.Invoke();
+    }
+    private void OnCancel()
+    {
+        Cancel?.Invoke();
+        Toggle?.Invoke();
+    }
+}
