@@ -37,7 +37,7 @@
     /// <summary>
     /// Delegate used to encapsulate the statehaschanged method to be able to use it statically
     /// </summary>
-    private static Action? OnToggle { get; set; }
+    public static Action? Rerender { get; set; }
     /// <summary>
     /// Displays a pop-up with the information
     /// </summary>
@@ -74,17 +74,17 @@
     private static void ToggleInformationWindow()
     {
         showInformation = !showInformation;
-        OnToggle?.Invoke(); //Needed when a child invokes this method to rerender the page
+        Rerender?.Invoke(); //Needed when a child invokes this method to rerender the page
     }
     private static void ToggleInputWindow()
     {
         showInput = !showInput;
-        OnToggle?.Invoke(); //Needed when a child invokes this method to rerender the page
+        Rerender?.Invoke(); //Needed when a child invokes this method to rerender the page
     }
     protected override void OnInitialized()
     {
         /*Populates the delegate with the StateHasChanged method, necesary to be able to use the StateHasChanged method
         statically*/
-        OnToggle = () => StateHasChanged();
+        Rerender = () => StateHasChanged();
     }
 }

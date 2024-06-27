@@ -3,7 +3,7 @@ using BudgetManager.Components.Layout;
 public class Category
 {
     public static event Action<Category>? CategoryCreated;
-    public static event Action<Category,string>? CategoryRenamed;
+    public static event Action<Category, string>? CategoryRenamed;
     public static event Action<Category>? CategoryDeleted;
     public static Dictionary<string, Category> Categories { get; private set; } = new();
     public string Name { get; private set; } = "";
@@ -20,7 +20,7 @@ public class Category
         Categories.Add(Name, this);
         CategoryCreated?.Invoke(this);
         //Uploads the data to the database
-        if (uploadData) DatabaseManager.CategoryTreeDataChanged.Invoke();
+        if (uploadData) DatabaseManager.UploadToDatabase.Invoke("CategoryTree",CategoryTreeSerializer.Serialize());
     }
     public void Rename(string newName)
     {
@@ -34,15 +34,15 @@ public class Category
         Categories.Remove(previousName);
         Name = newName;
         Categories.Add(Name, this);
-        CategoryRenamed?.Invoke(this,previousName);
+        CategoryRenamed?.Invoke(this, previousName);
         //Uploads the data to the database
-        DatabaseManager.CategoryTreeDataChanged.Invoke();
+        DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
     }
     public void Delete()
     {
         Categories.Remove(Name);
         CategoryDeleted?.Invoke(this);
         //Uploads the data to the database
-        DatabaseManager.CategoryTreeDataChanged.Invoke();
+        DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
     }
 }

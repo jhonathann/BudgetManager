@@ -23,7 +23,7 @@
     <p>Categorías</p>
     @foreach (KeyValuePair<string, Category> categoryKvp in Category.Categories)
     {
-        <CategoryMenuTab Category=@categoryKvp.Value Rerender="()=>this.StateHasChanged()"/>
+        <CategoryMenuTab Category=@categoryKvp.Value Rerender="()=>this.StateHasChanged()" />
     }
     <button class="tab" @onclick=AddCategoryButtonOnClick>
         <div>
@@ -37,19 +37,19 @@
 </nav>
 
 @code {
-    void AddCategoryButtonOnClick()
+    public static Action? Rerender { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Rerender = ()=>this.StateHasChanged();
+    }
+
+    private void AddCategoryButtonOnClick()
     {
         MainLayout.DisplayInputValueWindow("Nueva Categoría", "text", "Nombre", (categoryName) =>
         {
             new Category(categoryName);
             this.StateHasChanged();
         });
-    }
-    protected override async Task OnInitializedAsync()
-    {
-        base.OnInitialized();
-        //Load the data of the category tree
-        await DatabaseManager.LoadCategoryTreeData.Invoke();
-        StateHasChanged();
     }
 }

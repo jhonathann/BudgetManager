@@ -5,10 +5,8 @@ using Microsoft.Extensions.Configuration;
 
 public static class DatabaseManager
 {
-     //Delegate definition for a LoadCategoryTreeDataAction
-     public delegate Task LoadCategoryTreeDataAction();
-     public static LoadCategoryTreeDataAction LoadCategoryTreeData { get; private set; }
-     public static Action CategoryTreeDataChanged { get; private set; }
+     public static Func<string, Task<string?>> LoadDatabaseData { get; private set; }
+     public static Action<string, string> UploadToDatabase { get; private set; }
      private static CosmosClient client;
      private static Database database;
      private static Container container;
@@ -18,42 +16,36 @@ public static class DatabaseManager
           client = new CosmosClient(MauiProgram.Services.GetService<IConfiguration>().GetValue<string>("Database:Connection_String"));
           database = client.GetDatabase("BudgetManager");
           container = database.GetContainer("Main");
-          CategoryTreeDataChanged = OnCategoryTreeChanged;
-          LoadCategoryTreeData = OnLoadTreeData;
+          UploadToDatabase = OnUploadToDatabase;
+          LoadDatabaseData = OnLoadDatabaseData;
      }
-     private static async void OnCategoryTreeChanged()
+     private static async void OnUploadToDatabase(string databaseId, string jsonString)
      {
-          await UploadCategoryTreeData();
-     }
-
-     private static async Task UploadCategoryTreeData()
-     {
-          JsonStringWrapper jsonStringWrapper = new("CategoryTree");
-          ItemResponse<JsonStringWrapper> response;
+          JsonStringDatabaseWrapper jsonStringWrapper = new(databaseId, jsonString);
+          ItemResponse<JsonStringDatabaseWrapper> response;
           try
           {
                response = await container.CreateItemAsync(jsonStringWrapper);
           }
-          catch (CosmosException e)
+          catch
           {
-               Debug.Print(e.StatusCode.ToString());
-               response = await container.ReplaceItemAsync(jsonStringWrapper, "CategoryTree");
+               response = await container.ReplaceItemAsync(jsonStringWrapper, databaseId);
           }
           DisplayOperationResult(response);
      }
-     private static async Task OnLoadTreeData()
+     private static async Task<string?> OnLoadDatabaseData(string databaseId)
      {
-          ItemResponse<JsonStringWrapper> response;
+          ItemResponse<JsonStringDatabaseWrapper> response;
           try
           {
-               response = await container.ReadItemAsync<JsonStringWrapper>("CategoryTree", PartitionKey.None);
-               CategoryTreeSerializer.Deserialize(response.Resource.JsonString);
+               response = await container.ReadItemAsync<JsonStringDatabaseWrapper>(databaseId, PartitionKey.None);
                DisplayOperationResult(response);
+               return response.Resource.JsonString;
           }
-          catch { }
+          catch { return null; }
      }
      [Conditional("DEBUG")]
-     private static void DisplayOperationResult(ItemResponse<JsonStringWrapper> itemResponse)
+     private static void DisplayOperationResult(ItemResponse<JsonStringDatabaseWrapper> itemResponse)
      {
           Debug.Print("Status Code: " + itemResponse.StatusCode.ToString());
           Debug.Print("Request Charge: " + itemResponse.RequestCharge.ToString());

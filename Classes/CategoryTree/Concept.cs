@@ -7,7 +7,7 @@ public class Concept
     public Category Category { get; private set; }
     public Dictionary<string, Rubro> Rubros { get; private set; } = new();
 
-    public Concept(string name, Category category)
+    public Concept(string name, Category category, bool uploadData = true)
     {
         //First check if the name is already in the dictionary
         if (category.Concepts.ContainsKey(name))
@@ -18,7 +18,7 @@ public class Concept
         Name = name;
         Category = category;
         Category.Concepts.Add(Name, this);
-        DatabaseManager.CategoryTreeDataChanged.Invoke();
+        if (uploadData) DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
     }
     public void Rename(string newName)
     {
@@ -31,11 +31,11 @@ public class Concept
         Category.Concepts.Remove(Name);
         Name = newName;
         Category.Concepts.Add(Name, this);
-        DatabaseManager.CategoryTreeDataChanged.Invoke();
+        DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
     }
     public void Delete()
     {
         Category.Concepts.Remove(Name);
-        DatabaseManager.CategoryTreeDataChanged.Invoke();
+        DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
     }
 }
