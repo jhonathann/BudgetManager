@@ -1,4 +1,6 @@
-@page "/CategoryView/{categoryName}"
+@page "/CategoryView/{*categoryName}"
+
+@*Use of Catch-all route parameters *@
 
 <div class="general">
      <div class="categoryTitle">
@@ -7,7 +9,7 @@
 
      @foreach (KeyValuePair<string, Concept> conceptKvp in category.Concepts)
      {
-          <ConceptCard Concept=conceptKvp.Value Rerender="()=>this.StateHasChanged()"/>
+          <ConceptCard Concept=conceptKvp.Value Rerender="()=>this.StateHasChanged()" />
      }
      <button class="conceptCardButton" @onclick=AddConceptButtonOnClick>
           <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff"

@@ -51,12 +51,24 @@
                </div>
                @foreach (KeyValuePair<string, float> categoryKvp in budgetMonth.CategoryBudgets)
                {
-                    <div class="budgetInfo">
-                         <p>@categoryKvp.Key</p>
-                         <p>@(budgetMonth.Income * categoryKvp.Value / 100)</p>
-                         <input type="number" value="@categoryKvp.Value"
-                              @onchange="(ChangeEventArgs args)=>OnBudgetModified(args,categoryKvp.Key)">
-                    </div>
+                    @if (Category.Categories.ContainsKey(categoryKvp.Key))
+                    {
+                         <div class="budgetInfo">
+                              <p>@categoryKvp.Key</p>
+                              <p>@String.Format("{0:c}",(budgetMonth.Income * categoryKvp.Value / 100))</p>
+                              <input type="number" value="@categoryKvp.Value"
+                                   @onchange="(ChangeEventArgs args)=>OnBudgetModified(args,categoryKvp.Key)">
+                         </div>
+                    }
+                    else
+                    {
+                         <div class="budgetInfo missingCategory">
+                              <p>@categoryKvp.Key</p>
+                              <p>@(budgetMonth.Income * categoryKvp.Value / 100)</p>
+                              <input type="number" value="@categoryKvp.Value"
+                                   @onchange="(ChangeEventArgs args)=>OnBudgetModified(args,categoryKvp.Key)">
+                         </div>
+                    }
                }
           </div>
      </div>
@@ -77,7 +89,7 @@
      private async void UpdateInfo(int newYear, int newMonth)
      {
           if (newYear > DateTime.Now.Year) return;
-          if (newMonth < 1 || newMonth > 12) return;
+          if (newMonth < 1 || newMonth > DateTime.Now.Month) return;
           year = newYear;
           month = newMonth;
           budgetMonth = await BudgetMonth.GetBudgetMonth(year, month);
@@ -98,9 +110,8 @@
      }
      private void OnIncomeModified(ChangeEventArgs args)
      {
-
           float newValue = float.Parse(args.Value.ToString());
-          budgetMonth.Income = newValue;
+          budgetMonth.ModifyIncome(newValue);
           this.StateHasChanged();
      }
 }

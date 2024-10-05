@@ -5,8 +5,9 @@ using System.Text.Json.Serialization;
 /// </summary>
 public static class CategoryTreeSerializer
 {
+     public static bool IsAlreadyInitialized { get; private set; } = false;
      /// <summary>
-     /// The oprions for the serialization and deserialization
+     /// The options for the serialization and deserialization
      /// </summary>
      private static JsonSerializerOptions options = new JsonSerializerOptions() { ReferenceHandler = ReferenceHandler.IgnoreCycles };
      /// <summary>
@@ -58,5 +59,7 @@ public static class CategoryTreeSerializer
                     }
                }
           }
+          //Flag the Category Tree as already Initialized
+          IsAlreadyInitialized = true;
      }
 }

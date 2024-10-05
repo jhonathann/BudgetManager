@@ -126,6 +126,10 @@ p {
      color: var(--color-violet-600);
 }
 
+.missingCategory {
+     color: maroon;
+}
+
 input[type=number] {
      width: 20%;
      background-color: transparent;

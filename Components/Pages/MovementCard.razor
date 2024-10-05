@@ -1,12 +1,12 @@
 <div class="movimiento">
-     <p>@Movement?.Amount</p>
-     <p>@Movement?.Rubro.Name</p>
-     <p>@Movement?.Rubro.Concept.Name</P>
-     <p>@Movement?.Rubro.Concept.Category.Name</p>
-     <p>@Movement?.CreationDate</p>
+     <p>@String.Format("{0:c}",Movement?.Amount)</p>
+     <p>@Movement?.Rubro?.Name</p>
+     <p>@Movement?.Rubro?.Concept.Name</P>
+     <p>@Movement?.Rubro?.Concept.Category.Name</p>
+     @*<p>@Movement?.CreationDate</p>*@
 </div>
 
 @code {
      [Parameter]
-     public Movement? Movement {get;set;}
+     public Movement? Movement { get; set; }
 }

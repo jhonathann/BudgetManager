@@ -7,7 +7,7 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  background-color: var(--color-surface-mixed-green-200);
+  background-color: var(--color-surface-mixed-green-300);
   border-radius: 10px;
 
   border: 0px groove var(--color-green-100);
@@ -22,12 +22,11 @@ p {
 }
 
 .movimiento:hover {
-  border: 5px groove var(--color-green-100);
-  transition: all 0.25s;
+  box-shadow: 3px 3px 3px black;
+  transition: all 0.15s;
 }
 
 .movimiento:active {
   scale: 95%;
-  border: 5px groove var(--color-green-300);
-  transition: all 0.25s;
+  transition: all 0.15s;
 }

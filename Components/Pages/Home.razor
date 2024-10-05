@@ -2,12 +2,35 @@
 @using System.Text.Json
 
 <div class="general">
-    @if(month is not null)
+    @if (month is not null)
     {
-        @foreach (Movement movement in @month.Movements)
-        {
-            <MovementCard Movement=@movement />
-        }
+        <div class="container movementsContainer">
+            <h2>Últimos Movimientos</h2>
+            @foreach (Movement movement in month.Movements)
+            {
+                <MovementCard Movement=@movement />
+            }
+        </div>
+        <div class="container">
+            <h2>Dinero Restante</h2>
+            @foreach (KeyValuePair<string, float> remainingMoneyKvp in month.RemainingMoney)
+            {
+                <div class="info">
+                    <p>@remainingMoneyKvp.Key</p>
+                    <p>@String.Format("{0:c}",remainingMoneyKvp.Value)</p>
+                </div>
+            }
+        </div>
+        <div class="container">
+            <h2>Dinero Gastado</h2>
+            @foreach (KeyValuePair<string, float> spendedMoneyKvp in month.SpendedMoney)
+            {
+                <div class="info">
+                    <p>@spendedMoneyKvp.Key</p>
+                    <p>@String.Format("{0:c}",spendedMoneyKvp.Value)</p>
+                </div>
+            }
+        </div>
     }
 </div>
 @code {
@@ -16,14 +39,19 @@
     {
         base.OnInitialized();
         //Load the data of the category tree
-        string? jsonString = await DatabaseManager.LoadDatabaseData.Invoke("CategoryTree");
-        if (jsonString is not null)
+        if (CategoryTreeSerializer.IsAlreadyInitialized == false)
         {
-            CategoryTreeSerializer.Deserialize(jsonString);
-            NavMenu.Rerender?.Invoke();
+            string? jsonString = await DatabaseManager.LoadDatabaseData.Invoke("CategoryTree");
+            if (jsonString is not null)
+            {
+
+                CategoryTreeSerializer.Deserialize(jsonString);
+                NavMenu.Rerender?.Invoke();
+
+            }
         }
         //Load the data of the budget month
-        month = await BudgetMonth.GetBudgetMonth(DateTime.Now.Year,DateTime.Now.Month);
+        month = await BudgetMonth.GetBudgetMonth(DateTime.Now.Year, DateTime.Now.Month);
         StateHasChanged();
-     }
+    }
 }
