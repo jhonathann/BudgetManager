@@ -8,50 +8,50 @@
             <h2>Últimos Movimientos</h2>
             @foreach (Movement movement in month.Movements)
             {
-                <MovementCard Movement=@movement />
+                <MovementCard Movement=@movement OnDelete="()=>{month.RemoveMovement(movement); StateHasChanged();}"/>
+                    }
+            </div>
+            <div class="container">
+                <h2>Dinero Restante</h2>
+                    @foreach (KeyValuePair<string, float> remainingMoneyKvp in month.RemainingMoney)
+                    {
+                    <div class="info">
+                        <p>@remainingMoneyKvp.Key</p>
+                        <p>@String.Format("{0:c}", remainingMoneyKvp.Value)</p>
+                    </div>
+                    }
+            </div>
+            <div class="container">
+                <h2>Dinero Gastado</h2>
+                    @foreach (KeyValuePair<string, float> spendedMoneyKvp in month.SpendedMoney)
+                    {
+                    <div class="info">
+                        <p>@spendedMoneyKvp.Key</p>
+                        <p>@String.Format("{0:c}", spendedMoneyKvp.Value)</p>
+                    </div>
+                    }
+            </div>
             }
-        </div>
-        <div class="container">
-            <h2>Dinero Restante</h2>
-            @foreach (KeyValuePair<string, float> remainingMoneyKvp in month.RemainingMoney)
-            {
-                <div class="info">
-                    <p>@remainingMoneyKvp.Key</p>
-                    <p>@String.Format("{0:c}",remainingMoneyKvp.Value)</p>
-                </div>
-            }
-        </div>
-        <div class="container">
-            <h2>Dinero Gastado</h2>
-            @foreach (KeyValuePair<string, float> spendedMoneyKvp in month.SpendedMoney)
-            {
-                <div class="info">
-                    <p>@spendedMoneyKvp.Key</p>
-                    <p>@String.Format("{0:c}",spendedMoneyKvp.Value)</p>
-                </div>
-            }
-        </div>
-    }
-</div>
-@code {
-    BudgetMonth? month;
-    protected override async Task OnInitializedAsync()
-    {
-        base.OnInitialized();
-        //Load the data of the category tree
-        if (CategoryTreeSerializer.IsAlreadyInitialized == false)
+    </div>
+        @code {
+            BudgetMonth? month;
+protected override async Task OnInitializedAsync()
         {
-            string? jsonString = await DatabaseManager.LoadDatabaseData.Invoke("CategoryTree");
-            if (jsonString is not null)
+            base.OnInitialized();
+            //Load the data of the category tree
+            if (CategoryTreeSerializer.IsAlreadyInitialized == false)
             {
+                string? jsonString = await DatabaseManager.LoadDatabaseData.Invoke("CategoryTree");
+                if (jsonString is not null)
+                {
 
-                CategoryTreeSerializer.Deserialize(jsonString);
-                NavMenu.Rerender?.Invoke();
+                    CategoryTreeSerializer.Deserialize(jsonString);
+                    NavMenu.Rerender?.Invoke();
 
+                }
             }
+            //Load the data of the budget month
+            month = await BudgetMonth.GetBudgetMonth(DateTime.Now.Year, DateTime.Now.Month);
+            StateHasChanged();
         }
-        //Load the data of the budget month
-        month = await BudgetMonth.GetBudgetMonth(DateTime.Now.Year, DateTime.Now.Month);
-        StateHasChanged();
-    }
 }

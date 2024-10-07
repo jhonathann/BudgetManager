@@ -134,6 +134,12 @@ public class BudgetMonth
           SaveToDatabase();
           CalculateAnalytics();
      }
+     public void RemoveMovement(Movement movement)
+     {
+          Movements.Remove(movement);
+          SaveToDatabase();
+          CalculateAnalytics();
+     }
      private void OnCategoryCreated(Category createdCategory)
      {
           CategoryBudgets.Add(createdCategory.Name, 0);

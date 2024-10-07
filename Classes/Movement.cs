@@ -14,8 +14,7 @@ public class Movement
     /// Crea un nuevo movimiento
     /// </summary>
     /// <param name="amount">El valor del movimiento</param>
-    /// <param name="rubro">Descripción del movimiento</param>
-
+    /// <param name="rubroId">Id del rubro asociado al movimiento</param>
     public Movement(int amount, Guid rubroId)
     {
         Amount = amount;
@@ -24,4 +23,3 @@ public class Movement
         Rubro = Rubro.Rubros[rubroId];
     }
 }
-
