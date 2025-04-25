@@ -12,6 +12,8 @@
      box-shadow: 2.5px 2.5px 2.5px black;
      color: var(--color-green-600);
      animation: fadeIn 0.25s ease-in-out 0s alternate;
+     font-size: 2vmin;
+     overflow: hidden;
 }
 
 @keyframes fadeIn {

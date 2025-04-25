@@ -6,7 +6,7 @@
     {
         <div class="container movementsContainer">
             <h2>Últimos Movimientos</h2>
-            @foreach (Movement movement in month.Movements)
+            @foreach (Movement movement in month.Movements.Reverse<Movement>())
             {
                 <MovementCard Movement=@movement OnDelete="()=>{month.RemoveMovement(movement); StateHasChanged();}"/>
                     }
@@ -17,7 +17,7 @@
                     {
                     <div class="info">
                         <p>@remainingMoneyKvp.Key</p>
-                        <p>@String.Format("{0:c}", remainingMoneyKvp.Value)</p>
+                        <p>@String.Format("{0:c0}", remainingMoneyKvp.Value)</p>
                     </div>
                     }
             </div>
@@ -27,7 +27,7 @@
                     {
                     <div class="info">
                         <p>@spendedMoneyKvp.Key</p>
-                        <p>@String.Format("{0:c}", spendedMoneyKvp.Value)</p>
+                        <p>@String.Format("{0:c0}", spendedMoneyKvp.Value)</p>
                     </div>
                     }
             </div>

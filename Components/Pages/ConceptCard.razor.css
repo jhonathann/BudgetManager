@@ -57,6 +57,10 @@ svg {
      justify-content: flex-start;
      align-items: flex-start;
      align-content: flex-start;
+     overflow: auto;
+     scrollbar-width: thin;
+     scrollbar-color: var(--color-green-300) var(--color-surface-mixed-green-100);
+     scroll-behavior: smooth;
 }
 
 .rubroCardButton {

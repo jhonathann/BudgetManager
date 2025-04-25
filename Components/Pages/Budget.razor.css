@@ -90,6 +90,10 @@ h3 {
      flex-direction: column;
      justify-content: flex-start;
      align-items: center;
+     overflow: auto;
+     scrollbar-width: thin;
+     scrollbar-color: var(--color-violet-300) var(--color-surface-mixed-violet-100);
+     scroll-behavior: smooth;
 }
 
 .incomeInfo {

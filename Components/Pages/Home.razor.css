@@ -21,6 +21,10 @@
   background-color: var(--color-surface-mixed-green-200);
   box-shadow: 5px 5px 5px black;
   border-radius: 20px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-green-300) var(--color-surface-mixed-green-100);
+  scroll-behavior: smooth;
 }
 
 .movementsContainer {

@@ -44,7 +44,9 @@ nav {
     height: 1px;
     background-color: aliceblue;
 }
-
+.config {
+    margin-top: auto;
+}
 .nuevaCategoria {
     position: fixed;
     display: flex;

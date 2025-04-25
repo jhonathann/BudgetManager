@@ -1,5 +1,5 @@
 <div class="movimiento" @onmouseenter=OnMouseEnter @onmouseleave=OnMouseLeave>
-    <p>@String.Format("{0:c}", Movement?.Amount)</p>
+    <p>@String.Format("{0:c0}", Movement?.Amount)</p>
     <p>@Movement?.Rubro?.Name</p>
     <p>@Movement?.Rubro?.Concept.Name</P>
     <p>@Movement?.Rubro?.Concept.Category.Name</p>

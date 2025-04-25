@@ -8,7 +8,9 @@
      align-items: center;
      background-color: var(--color-surface-mixed-green-100);
      overflow: auto;
-     scrollbar-width:none;
+     scrollbar-width: thin;
+     scrollbar-color: var(--color-green-300) var(--color-surface-mixed-green-100);
+     scroll-behavior: smooth;
 }
 
 .categoryTitle {

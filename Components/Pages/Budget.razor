@@ -55,7 +55,7 @@
                     {
                          <div class="budgetInfo">
                               <p>@categoryKvp.Key</p>
-                              <p>@String.Format("{0:c}",(budgetMonth.Income * categoryKvp.Value / 100))</p>
+                              <p>@String.Format("{0:c0}",(budgetMonth.Income * categoryKvp.Value / 100))</p>
                               <input type="number" value="@categoryKvp.Value"
                                    @onchange="(ChangeEventArgs args)=>OnBudgetModified(args,categoryKvp.Key)">
                          </div>
