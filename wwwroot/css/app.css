@@ -1,4 +1,17 @@
-﻿html, body {
+﻿/* Sizes for reactive text*/
+h1{
+    font-size: 5dvmin;
+}
+h2{
+    font-size: 4dvmin;
+}
+h3{
+    font-size: 3dvmin;
+}
+p{
+    font-size: 2dvmin;
+}
+html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0%;
     padding: 0%;

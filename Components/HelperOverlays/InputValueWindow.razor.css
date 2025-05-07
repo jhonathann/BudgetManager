@@ -52,7 +52,6 @@ form {
 h1 {
      display: flex;
      color: var(--color-green-400);
-     font-size: 2.5vw;
 }
 
 .buttonsContainer {

@@ -35,7 +35,6 @@
   --color-surface-mixed-violet-500: #737175;
   --color-surface-mixed-violet-600: #8d8c8f;
 }
-
 .page {
   display: flex;
   flex-direction: row;
@@ -49,7 +48,13 @@
   display: flex;
   width: 20%;
   height: 100%;
-  background-image: linear-gradient(135deg, var(--color-green-100) 20%, var(--color-violet-100) 80%);
+  background-image: linear-gradient(0deg, var(--color-green-100) 20%, var(--color-violet-100) 80%);
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+}
+
+.hideOrShowBar{
+  display: none;
 }
 
 main {
@@ -57,19 +62,44 @@ main {
   height: 100%;
 }
 
-@media (max-width: 641px) {
-  .page {
-    flex-direction: column;
-  }
-
+@media (max-width: 700px) {
+  
   .sidebar {
-    width: 100%;
-    height: 10%;
-    top: 0;
+    width: 40%;
+    position: absolute;
+    left: 0;
+    z-index: 1;
   }
-
-  .main {
+  .hideOrShowBar{
+    display: flex;
+    width: 15%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-image: inherit;
+  }
+  .hideOrShowBar svg{
+    width: 90%;
+    height: 100%;
+    fill: aliceblue;
+  }
+  .showSideBar{
+    transform: translateX(0);
+    transition: 0.3s ease-in-out;
+    box-shadow: 5dvmin 0 5dvmin 5dvmin rgba(0, 0, 0, 0.6);
+  }
+  .showSideBar svg:hover{
+    fill: var(--color-violet-300);
+  }
+  .hideSideBar{
+    transform: translateX(-85%);
+    transition: 0.3s ease-in-out;
+    box-shadow: 1dvmin 0 1dvmin 1dvmin rgba(0, 0, 0, 0.6);
+  }
+  .hideSideBar svg:hover{
+    fill: var(--color-green-300);
+  }
+  main {
     width: 100%;
-    height: 90%;
   }
 }

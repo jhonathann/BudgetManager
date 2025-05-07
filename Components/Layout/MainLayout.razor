@@ -2,10 +2,19 @@
 @using BudgetManager.Components.HelperOverlays
 
 <div class="colorPalette page">
-    <div class="sidebar">
-        <NavMenu />
+    <div class="sidebar @SideBarClass">
+        <NavMenu/>
+        <div class="hideOrShowBar" @onclick=ToggleNavMenu>
+            @if (SideBarClass == "showSideBar")
+            {
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/></svg>
+            }
+            else
+            {
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
+            }
+        </div>
     </div>
-
     <main>
         @Body
     </main>
@@ -34,6 +43,8 @@
     private static string InputType { get; set; } = "";
     private static string InputPlaceHolder { get; set; } = "";
     private static Action<string?>? InputSubmitAction { get; set; }
+    // CSS class to show/ hide the NavBar in lower screen sizes
+    private static string SideBarClass = "showSideBar";
     /// <summary>
     /// Delegate used to encapsulate the statehaschanged method to be able to use it statically
     /// </summary>
@@ -81,9 +92,14 @@
         showInput = !showInput;
         Rerender?.Invoke(); //Needed when a child invokes this method to rerender the page
     }
+
+    private static void ToggleNavMenu()
+    {
+        SideBarClass = SideBarClass == "showSideBar" ? "hideSideBar" : "showSideBar";
+    }
     protected override void OnInitialized()
     {
-        /*Populates the delegate with the StateHasChanged method, necesary to be able to use the StateHasChanged method
+        /*Populates the delegate with the StateHasChanged method, necessary to be able to use the StateHasChanged method
         statically*/
         Rerender = () => StateHasChanged();
     }

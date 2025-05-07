@@ -44,5 +44,23 @@ h2 {
 }
 
 p {
-  color: var(--color-green-500)
+  color: var(--color-green-500);
+}
+
+@media (max-width: 700px) {
+  .general{
+    flex-wrap: nowrap;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-green-300) var(--color-surface-mixed-green-100);
+    scroll-behavior: smooth;
+  }
+  .container{
+    width: 95%;
+    height: fit-content;
+    overflow: clip;
+  }
+  .movementsContainer{
+    order: 1;
+  }
 }
