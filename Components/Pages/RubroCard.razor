@@ -1,7 +1,7 @@
 <div class="rubroCard" @onmouseenter=OnMouseEnter @onmouseleave=OnMouseLeave>
     @if (!showOptions)
     {
-        <h3>@Rubro.Name</h3>
+        <h4>@Rubro.Name</h4>
     }
     else
     {
@@ -38,9 +38,9 @@
     }
     private void Edit()
     {
-        MainLayout.DisplayInputValueWindow("Edit Rubro", "text", "Nuevo Nombre", (newName) =>
+        MainLayout.DisplayInputValueWindow("Edit Rubro", "text", "Nuevo Nombre", (inputParameter) =>
         {
-            Rubro.Rename(newName);
+            Rubro.Rename(inputParameter.Value);
             this.StateHasChanged();
         });
     }
@@ -55,11 +55,11 @@
     }
     private void AddMovement()
     {
-        MainLayout.DisplayInputValueWindow("Nuevo Movimiento", "number", "Cantidad", async  (amount) =>
+        MainLayout.DisplayInputValueWindow("Nuevo Movimiento", "number", "Cantidad", async  (inputParameter) =>
         {
-            BudgetMonth budgetMonth = await BudgetMonth.GetBudgetMonth(DateTime.Now.Year, DateTime.Now.Month);
-            Movement movement = new Movement(int.Parse(amount), Rubro.Id);
+            BudgetMonth budgetMonth = await BudgetMonth.GetBudgetMonth(inputParameter.CreationDate.Year, inputParameter.CreationDate.Month);
+            Movement movement = new Movement(int.Parse(inputParameter.Value), Rubro.Id, inputParameter.CreationDate);
             budgetMonth.AddMovement(movement);
-        });
+        },true);
     }
 }

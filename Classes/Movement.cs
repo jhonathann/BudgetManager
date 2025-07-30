@@ -15,11 +15,12 @@ public class Movement
     /// </summary>
     /// <param name="amount">El valor del movimiento</param>
     /// <param name="rubroId">Id del rubro asociado al movimiento</param>
-    public Movement(int amount, Guid rubroId)
+    /// <param name="creationDate">La fecha del rubro</param>
+    public Movement(int amount, Guid rubroId, DateTime creationDate)
     {
         Amount = amount;
         RubroId = rubroId;
-        CreationDate = DateTime.Now;
+        CreationDate = creationDate;
         Rubro = Rubro.Rubros[rubroId];
     }
 }

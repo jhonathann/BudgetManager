@@ -2,7 +2,7 @@
      <div class="concept" @onmouseenter=OnMouseEnter @onmouseleave=OnMouseLeave>
           @if (!showOptions)
           {
-               <h2>@Concept.Name</h2>
+               <h3>@Concept.Name</h3>
           }
           else
           {
@@ -48,9 +48,9 @@
      }
      private void Edit()
      {
-          MainLayout.DisplayInputValueWindow("Editar Concepto", "text", "Nuevo Nombre", (newName) =>
+          MainLayout.DisplayInputValueWindow("Editar Concepto", "text", "Nuevo Nombre", (inputParameter) =>
           {
-               Concept.Rename(newName);
+               Concept.Rename(inputParameter.Value);
                this.StateHasChanged();
           });
      }
@@ -64,9 +64,9 @@
      }
      void AddRubroButtonOnClick()
      {
-          MainLayout.DisplayInputValueWindow("Nuevo Rubro", "text", "Nombre", (rubroName) =>
+          MainLayout.DisplayInputValueWindow("Nuevo Rubro", "text", "Nombre", (inputParameter) =>
           {
-               new Rubro(rubroName, Concept);
+               new Rubro(inputParameter.Value, Concept);
                this.StateHasChanged();
           });
      }

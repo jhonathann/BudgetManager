@@ -34,9 +34,9 @@
      }
      void AddConceptButtonOnClick()
      {
-          MainLayout.DisplayInputValueWindow("Nuevo Concepto", "text", "Nombre", (conceptName) =>
+          MainLayout.DisplayInputValueWindow("Nuevo Concepto", "text", "Nombre", (inputParameter) =>
           {
-               new Concept(conceptName, category);
+               new Concept(inputParameter.Value,category);
                this.StateHasChanged();
           });
      }

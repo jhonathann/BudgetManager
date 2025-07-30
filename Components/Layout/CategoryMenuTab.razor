@@ -34,9 +34,9 @@
     }
     private void Edit()
     {
-        MainLayout.DisplayInputValueWindow("Editar Categoría", "text", "Nuevo Nombre", (newName) =>
+        MainLayout.DisplayInputValueWindow("Editar Categoría", "text", "Nuevo Nombre", (inputParameter) =>
         {
-            Category.Categories[Category.Name].Rename(newName);
+            Category.Categories[Category.Name].Rename(inputParameter.Value);
             this.StateHasChanged();
         });
     }
