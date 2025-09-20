@@ -34,23 +34,23 @@
     </div>
         @code {
             BudgetMonth? month;
-protected override async Task OnInitializedAsync()
-        {
-            base.OnInitialized();
-            //Load the data of the category tree
-            if (CategoryTreeSerializer.IsAlreadyInitialized == false)
+            protected override async Task OnInitializedAsync()
             {
-                string? jsonString = await DatabaseManager.LoadDatabaseData.Invoke("CategoryTree");
-                if (jsonString is not null)
+                base.OnInitialized();
+                //Load the data of the category tree
+                if (CategoryTreeSerializer.IsAlreadyInitialized == false)
                 {
+                    string? jsonString = await DatabaseManager.LoadDatabaseData.Invoke("CategoryTree");
+                    if (jsonString is not null)
+                    {
 
-                    CategoryTreeSerializer.Deserialize(jsonString);
-                    NavMenu.Rerender?.Invoke();
+                        CategoryTreeSerializer.Deserialize(jsonString);
+                        NavMenu.Rerender?.Invoke();
 
+                    }
                 }
+                //Load the data of the budget month
+                month = await BudgetMonth.GetBudgetMonth(DateTime.Now.Year, DateTime.Now.Month);
+                StateHasChanged();
             }
-            //Load the data of the budget month
-            month = await BudgetMonth.GetBudgetMonth(DateTime.Now.Year, DateTime.Now.Month);
-            StateHasChanged();
-        }
 }

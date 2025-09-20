@@ -8,3 +8,78 @@
     align-items: center;
     background-color: var(--color-surface-mixed-violet-100);
 }
+
+.topPanel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 20%;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--color-surface-mixed-violet-300);
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.selectorRow {
+    display: flex;
+    width: 30%;
+    height: 30%;
+    margin: 1%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+svg {
+    cursor: pointer;
+    transition: 0.2s;
+    width: 100%;
+    height: 100%;
+    fill: var(--color-violet-500);
+}
+
+svg:hover {
+    transition: 0.2s;
+    scale: 1.5;
+    fill: var(--color-violet-600);
+}
+
+svg:active {
+    transition: 0.2s;
+    scale: 1;
+}
+
+h1 {
+    color: var(--color-violet-400);
+}
+
+h2 {
+    color: var(--color-violet-500);
+}
+
+h3 {
+    width: 20%;
+    color: var(--color-violet-600);
+}
+
+
+.navButton {
+    width: 20%;
+    height: 80%;
+    background-color: transparent;
+    border: none;
+}
+
+.bottomPanel {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-violet-300) var(--color-surface-mixed-violet-100);
+    scroll-behavior: smooth;
+}

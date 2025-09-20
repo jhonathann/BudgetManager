@@ -28,7 +28,6 @@ p {
 }
 
 .movimiento:active {
-  scale: 95%;
   transition: all 0.15s;
 }
 
