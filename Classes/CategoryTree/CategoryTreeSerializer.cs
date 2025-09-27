@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using BudgetManager.Components.Layout;
 /// <summary>
 /// Handels the serialization and deserialization of the current Categories tree
 /// </summary>
@@ -26,7 +27,13 @@ public static class CategoryTreeSerializer
      public static void Deserialize(string jsonString)
      {
           //Gets a dictionary of all the categories
-          Dictionary<string, JsonElement> categories = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(jsonString, options);
+          Dictionary<string, JsonElement>? categories = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(jsonString, options);
+          //If deserialization was not successfull
+          if (categories is null)
+          {
+               MainLayout.DisplayInformationWindow("Error", " Category Tree: categories. Deserialization failed", IsErrorMessage: true);
+               return;
+          }
           //Create a category for each category in the dictionary
           foreach (KeyValuePair<string, JsonElement> categorieKvp in categories)
           {
@@ -36,7 +43,13 @@ public static class CategoryTreeSerializer
                Category category = new(categorieKvp.Key, uploadData: false);
                //Gets the concepts in the category as a dictionary
                JsonElement conceptsJE = categorieKvp.Value.GetProperty("Concepts");
-               Dictionary<string, JsonElement> concepts = conceptsJE.Deserialize<Dictionary<string, JsonElement>>();
+               Dictionary<string, JsonElement>? concepts = conceptsJE.Deserialize<Dictionary<string, JsonElement>>();
+               //If deserialization was not successfull
+               if (concepts is null)
+               {
+                    MainLayout.DisplayInformationWindow("Error", " Category Tree: concepts.Deserialization failed", IsErrorMessage: true);
+                    return;
+               }
                //Creates the concept for each concept in the dictionary
                foreach (KeyValuePair<string, JsonElement> conceptKvp in concepts)
                {
@@ -46,7 +59,13 @@ public static class CategoryTreeSerializer
                     Concept concept = new(conceptKvp.Key, category, uploadData: false);
                     //Gets the Rubros as a dictionary
                     JsonElement rubrosJE = conceptKvp.Value.GetProperty("Rubros");
-                    Dictionary<string, JsonElement> rubros = rubrosJE.Deserialize<Dictionary<string, JsonElement>>();
+                    Dictionary<string, JsonElement>? rubros = rubrosJE.Deserialize<Dictionary<string, JsonElement>>();
+                    //If deserialization was not successfull
+                    if (rubros is null)
+                    {
+                         MainLayout.DisplayInformationWindow("Error", " Category Tree: rubros. Deserialization failed", IsErrorMessage: true);
+                         return;
+                    }
                     //Creates the rubro for each rubro in the dictionary
                     foreach (KeyValuePair<string, JsonElement> rubroKvp in rubros)
                     {

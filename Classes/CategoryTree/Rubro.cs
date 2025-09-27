@@ -6,13 +6,19 @@ public class Rubro
     public Guid Id { get; private set; }
     public string Name { get; private set; } = "";
     [JsonIgnore]
-    public Concept Concept { get; private set; }
+    public Concept Concept { get; private set; } = default!;
     public Rubro(string name, Concept concept, Guid rubroId = default)
     {
+        //In the rare case concept is null (shouldn't happen)
+        if (concept is null)
+        {
+            MainLayout.DisplayInformationWindow("Error", "No se ha asignado un concepto valido", IsErrorMessage: true);
+            return;
+        }
         //First check if the name is already in the dictionary
         if (concept.Rubros.ContainsKey(name))
         {
-            MainLayout.DisplayInformationWindow("Error", "Ya existe un rubro con este nombre");
+            MainLayout.DisplayInformationWindow("Error", "Ya existe un rubro con este nombre", IsErrorMessage: true);
             return;
         }
         Name = name;
@@ -35,7 +41,7 @@ public class Rubro
         //First check if the name is already in the dictionary
         if (Concept.Rubros.ContainsKey(newName))
         {
-            MainLayout.DisplayInformationWindow("Error", "Ya existe un concepto con este nombre");
+            MainLayout.DisplayInformationWindow("Error", "Ya existe un concepto con este nombre", IsErrorMessage: true);
             return;
         }
         Concept.Rubros.Remove(Name);

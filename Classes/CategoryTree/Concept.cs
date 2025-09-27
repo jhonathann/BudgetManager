@@ -4,15 +4,21 @@ public class Concept
 {
     public string Name { get; private set; } = "";
     [JsonIgnore]
-    public Category Category { get; private set; }
+    public Category Category { get; private set; } = default!;
     public Dictionary<string, Rubro> Rubros { get; private set; } = new();
 
     public Concept(string name, Category category, bool uploadData = true)
     {
+        //In the rare case category is null (shouldn't happen)
+        if (category is null)
+        {
+            MainLayout.DisplayInformationWindow("Error", "No se ha asignado una categoria valida", IsErrorMessage: true);
+            return;
+        }
         //First check if the name is already in the dictionary
         if (category.Concepts.ContainsKey(name))
         {
-            MainLayout.DisplayInformationWindow("Error", "Ya existe un concepto con este nombre");
+            MainLayout.DisplayInformationWindow("Error", "Ya existe un concepto con este nombre", IsErrorMessage: true);
             return;
         }
         Name = name;
@@ -25,7 +31,7 @@ public class Concept
         //First check if the name is already in the dictionary
         if (Category.Concepts.ContainsKey(newName))
         {
-            MainLayout.DisplayInformationWindow("Error", "Ya existe un concepto con este nombre");
+            MainLayout.DisplayInformationWindow("Error", "Ya existe un concepto con este nombre", IsErrorMessage: true);
             return;
         }
         Category.Concepts.Remove(Name);

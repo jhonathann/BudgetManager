@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using BudgetManager.Components.Layout;
 
 public class BudgetMonth
 {
@@ -111,7 +112,15 @@ public class BudgetMonth
           string? jsonString = await DatabaseManager.LoadDatabaseData.Invoke($"BudgetMonth:({year},{month})");
           if (jsonString is not null)
           {
-               return JsonSerializer.Deserialize<BudgetMonth>(jsonString);
+               BudgetMonth? budgetMonth = JsonSerializer.Deserialize<BudgetMonth>(jsonString);
+               if (budgetMonth is not null)
+               {
+                    return budgetMonth;
+               }
+               else
+               {
+                    MainLayout.DisplayInformationWindow("Error: ", $"Fail to deserialize the BudgetMonth:({year},{month})", IsErrorMessage: true);
+               }
           }
           //Create a new month
           return new BudgetMonth(year, month);

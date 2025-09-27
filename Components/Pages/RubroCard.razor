@@ -24,7 +24,7 @@
 </div>
 @code {
     [Parameter]
-    public Rubro? Rubro { get; set; }
+    public Rubro Rubro { get; set; } = default!;
     [Parameter]
     public Action? Rerender { get; set; }
     private bool showOptions = false;
@@ -46,8 +46,8 @@
     }
     private void Delete()
     {
-        MainLayout.DisplayInformationWindow($"Borrar Rubro ({Rubro.Name})", "Estas seguro? (esta acción no se puede deshacer)",
-        true, () =>
+        MainLayout.DisplayInformationWindow($"Borrar Rubro ({Rubro.Name})", "Estas seguro? (esta acción no se puede deshacer)",IsErrorMessage: false,
+        askForConfirmation: true, () =>
         {
             Rubro.Delete();
             Rerender?.Invoke();

@@ -4,7 +4,7 @@
      <div class="panel">
           <div class=topPanel>
                <div class="selectorRow">
-                    <button class="navButton" @onclick="()=>UpdateInfo(year-1,month)">
+                    <button class="navButton" @onclick="() => UpdateInfo(year - 1, month)">
                          <svg xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                               <path
@@ -12,7 +12,7 @@
                          </svg>
                     </button>
                     <h2>@year</h2>
-                    <button class="navButton" @onclick="()=>UpdateInfo(year+1,month)">
+                    <button class="navButton" @onclick="() => UpdateInfo(year + 1, month)">
                          <svg xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                               <path
@@ -21,7 +21,7 @@
                     </button>
                </div>
                <div class="selectorRow">
-                    <button class="navButton" @onclick="()=>UpdateInfo(year,month-1)">
+                    <button class="navButton" @onclick="() => UpdateInfo(year, month - 1)">
                          <svg xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                               <path
@@ -29,7 +29,7 @@
                          </svg>
                     </button>
                     <h2>@IntMonthToStringMonth(month)</h2>
-                    <button class="navButton" @onclick="()=>UpdateInfo(year,month+1)">
+                    <button class="navButton" @onclick="() => UpdateInfo(year, month + 1)">
                          <svg xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                               <path
@@ -54,18 +54,18 @@
                     {
                          <div class="budgetInfo">
                               <p>@categoryKvp.Key</p>
-                              <p>@String.Format("{0:c0}",(budgetMonth.Income * categoryKvp.Value / 100))</p>
+                              <p>@String.Format("{0:c0}", (budgetMonth.Income * categoryKvp.Value / 100))</p>
                               <input type="number" value="@categoryKvp.Value"
-                                   @onchange="(ChangeEventArgs args)=>OnBudgetModified(args,categoryKvp.Key)">
+                                   @onchange="(ChangeEventArgs args) => OnBudgetModified(args, categoryKvp.Key)">
                          </div>
                     }
                     else
                     {
                          <div class="budgetInfo missingCategory">
                               <p>@categoryKvp.Key</p>
-                              <p>@(budgetMonth.Income * categoryKvp.Value / 100)</p>
+                              <p>@(budgetMonth.Income* categoryKvp.Value / 100)</p>
                               <input type="number" value="@categoryKvp.Value"
-                                   @onchange="(ChangeEventArgs args)=>OnBudgetModified(args,categoryKvp.Key)">
+                                   @onchange="(ChangeEventArgs args) => OnBudgetModified(args, categoryKvp.Key)">
                          </div>
                     }
                }
@@ -76,7 +76,7 @@
 @code {
      private int year = DateTime.Now.Year;
      private int month = DateTime.Now.Month;
-     private BudgetMonth? budgetMonth;
+     private BudgetMonth budgetMonth = default!;
      protected override async Task OnInitializedAsync()
      {
           budgetMonth = await BudgetMonth.GetBudgetMonth(year, month);
@@ -103,14 +103,28 @@
 
      private void OnBudgetModified(ChangeEventArgs args, string categoryName)
      {
-          float newValue = float.Parse(args.Value.ToString());
-          budgetMonth.ModifyBudget(categoryName, newValue);
-          UpdateInfo(year, month);//To trigger immediate update of the page
+          if (float.TryParse(args?.Value?.ToString(), out float newValue))
+          {
+               budgetMonth.ModifyBudget(categoryName, newValue);
+               UpdateInfo(year, month);//To trigger immediate update of the page
+          }
+          else
+          {
+               MainLayout.DisplayInformationWindow("Error", "Invalid Input", IsErrorMessage: true);
+               return;
+          }
      }
      private void OnIncomeModified(ChangeEventArgs args)
      {
-          float newValue = float.Parse(args.Value.ToString());
-          budgetMonth.ModifyIncome(newValue);
-          this.StateHasChanged();
+          if (float.TryParse(args?.Value?.ToString(), out float newValue))
+          {
+               budgetMonth.ModifyIncome(newValue);
+               this.StateHasChanged();
+          }
+          else
+          {
+               MainLayout.DisplayInformationWindow("Error", "Invalid Input", IsErrorMessage: true);
+               return;
+          }
      }
 }

@@ -9,7 +9,7 @@
 
      @foreach (KeyValuePair<string, Concept> conceptKvp in category.Concepts)
      {
-          <ConceptCard Concept=conceptKvp.Value Rerender="()=>this.StateHasChanged()" />
+          <ConceptCard Concept=conceptKvp.Value Rerender="() => this.StateHasChanged()" />
      }
      <button class="conceptCardButton" @onclick=AddConceptButtonOnClick>
           <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff"
@@ -24,8 +24,7 @@
 @code {
      [Parameter]
      public string CategoryName { get; set; } = "";
-     Category? category;
-     Concept? activeConcept;
+     Category category = default!;
 
      protected override void OnParametersSet()
      {
@@ -36,7 +35,7 @@
      {
           MainLayout.DisplayInputValueWindow("Nuevo Concepto", "text", "Nombre", (inputParameter) =>
           {
-               new Concept(inputParameter.Value,category);
+               new Concept(inputParameter.Value, category);
                this.StateHasChanged();
           });
      }

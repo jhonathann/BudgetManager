@@ -1,21 +1,27 @@
 using System.Diagnostics;
 using BudgetManager;
+using BudgetManager.Components.Layout;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
 
 public static class DatabaseManager
 {
-     public static Func<string, Task<string?>> LoadDatabaseData { get; private set; }
-     public static Action<string, string> UploadToDatabase { get; private set; }
-     private static CosmosClient client;
-     private static Database database;
-     private static Container container;
+     public static Func<string, Task<string?>> LoadDatabaseData { get; private set; } = default!;
+     public static Action<string, string> UploadToDatabase { get; private set; } = default!;
+     private static CosmosClient Client { get; set; } = default!;
+     private static Database Database { get; set; } = default!;
+     private static Container Container { get; set; } = default!;
      static DatabaseManager()
      {
-
-          client = new CosmosClient(MauiProgram.Services.GetService<IConfiguration>().GetValue<string>("Database:Connection_String"));
-          database = client.GetDatabase("BudgetManager");
-          container = database.GetContainer("Main");
+          IConfiguration? config = MauiProgram.Services.GetService<IConfiguration>();
+          if (config is null)
+          {
+               MainLayout.DisplayInformationWindow("Error", "No se pudo acceder a la configuración", IsErrorMessage: true);
+               return;
+          }
+          Client = new CosmosClient(config.GetValue<string>("Database:Connection_String"));
+          Database = Client.GetDatabase("BudgetManager");
+          Container = Database.GetContainer("Main");
           UploadToDatabase = OnUploadToDatabase;
           LoadDatabaseData = OnLoadDatabaseData;
      }
@@ -25,20 +31,25 @@ public static class DatabaseManager
           ItemResponse<JsonStringDatabaseWrapper> response;
           try
           {
-               response = await container.CreateItemAsync(jsonStringWrapper);
+               response = await Container.CreateItemAsync(jsonStringWrapper);
           }
           catch
           {
-               response = await container.ReplaceItemAsync(jsonStringWrapper, databaseId);
+               response = await Container.ReplaceItemAsync(jsonStringWrapper, databaseId);
           }
           DisplayOperationResult(response);
      }
+     /// <summary>
+     /// Tries to get data from the database
+     /// </summary>
+     /// <param name="databaseId">The id of the database</param>
+     /// <returns>A json string if the retrieval was succesfull or null otherwise</returns>
      private static async Task<string?> OnLoadDatabaseData(string databaseId)
      {
           ItemResponse<JsonStringDatabaseWrapper> response;
           try
           {
-               response = await container.ReadItemAsync<JsonStringDatabaseWrapper>(databaseId, PartitionKey.None);
+               response = await Container.ReadItemAsync<JsonStringDatabaseWrapper>(databaseId, PartitionKey.None);
                DisplayOperationResult(response);
                return response.Resource.JsonString;
           }

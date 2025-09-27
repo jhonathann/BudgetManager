@@ -92,3 +92,33 @@ button {
      background-color: #D9B3B3;
      transition: all 0.25s;
 }
+
+/*Estilos para mensajes de error*/
+.error {
+     border-color: #460000;
+}
+
+.error h1 {
+     color: #800000;
+}
+
+.error h2 {
+     color: #8b2626;
+}
+
+.error button {
+     background-color: #800000;
+     border: 2px solid #460000;
+     border-radius: 10px;
+     color: #C08080;
+}
+
+.error button:hover {
+     background-color: #CC9999;
+     transition: all 0.25s;
+}
+
+.error button:active {
+     background-color: #D9B3B3;
+     transition: all 0.25s;
+}

@@ -1,17 +1,17 @@
 @using BudgetManager.Classes
-<div class="pop-up" @onclick="()=>Toggle?.Invoke()">
-     <form @onclick:stopPropagation>
-          <h1>@Title</h1>
-          <input class="field" type=@InputType placeholder=@PlaceHolder @bind=value>
-          @if (RequireDate)
-          {
-              <input class="field" type="date" @bind=valueDate>
-          }
-          <div class="buttonsContainer">
-               <input class="button okButton" type="button" @onclick=OnSubmit value="Ok">
-               <input class="button cancelButton" type="button" @onclick="()=>Toggle?.Invoke()" value="Cancelar">
-          </div>
-     </form>
+<div class="pop-up" @onclick="() => Toggle?.Invoke()">
+    <form @onclick:stopPropagation>
+        <h1>@Title</h1>
+        <input class="field" type=@InputType placeholder=@PlaceHolder @bind=value>
+        @if (RequireDate)
+        {
+            <input class="field" type="date" @bind=valueDate>
+        }
+        <div class="buttonsContainer">
+            <input class="button okButton" type="button" @onclick=OnSubmit value="Ok">
+            <input class="button cancelButton" type="button" @onclick="() => Toggle?.Invoke()" value="Cancelar">
+        </div>
+    </form>
 </div>
 
 
@@ -34,7 +34,12 @@
     private DateTime valueDate = DateTime.Today;
     void OnSubmit()
     {
-        SubmitAction?.Invoke(new InputParameters(value,valueDate));
+        if (value is null)
+        {
+            MainLayout.DisplayInformationWindow("Error", "El valor registrado en NULL", IsErrorMessage: true);
+            return;
+        }
+        SubmitAction?.Invoke(new InputParameters(value, valueDate));
         Toggle?.Invoke();
     }
 }

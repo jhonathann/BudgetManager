@@ -34,7 +34,7 @@
 </div>
 @code {
      [Parameter]
-     public Concept? Concept { get; set; }
+     public Concept Concept { get; set; } = default!;
      [Parameter]
      public Action? Rerender { get; set; }
      private bool showOptions = false;
@@ -56,7 +56,7 @@
      }
      private void Delete()
      {
-          MainLayout.DisplayInformationWindow($"Borrar Concepto ({Concept.Name})", "Estas seguro? (esta acción no se puede deshacer)", true, () =>
+          MainLayout.DisplayInformationWindow($"Borrar Concepto ({Concept.Name})", "Estas seguro? (esta acción no se puede deshacer)",IsErrorMessage:false, true, () =>
         {
             Concept.Delete();
             Rerender?.Invoke();

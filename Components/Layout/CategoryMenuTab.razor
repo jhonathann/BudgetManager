@@ -1,4 +1,4 @@
-<a class="tab" href="CategoryView/@Category.Name" @onmouseenter=OnMouseEnter @onmouseleave=OnMouseLeave>
+<a class="tab" href="CategoryView/@Category?.Name" @onmouseenter=OnMouseEnter @onmouseleave=OnMouseLeave>
      @if (showOptions)
      {
           <svg @onclick=Delete  class="trashCan" xmlns="http://www.w3.org/2000/svg"
@@ -7,7 +7,7 @@
                     d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
           </svg>
      }
-     <p>@Category.Name</p>
+     <p>@Category?.Name</p>
      @if (showOptions)
      {
         <svg @onclick=Edit class="pen" xmlns="http://www.w3.org/2000/svg"
@@ -36,14 +36,23 @@
     {
         MainLayout.DisplayInputValueWindow("Editar Categoría", "text", "Nuevo Nombre", (inputParameter) =>
         {
+            if(Category is null){
+                MainLayout.DisplayInformationWindow("Error", "Couldn't Edit: Category is null", IsErrorMessage: true);
+                return;
+            }
             Category.Categories[Category.Name].Rename(inputParameter.Value);
             this.StateHasChanged();
         });
     }
     private void Delete()
     {
-        MainLayout.DisplayInformationWindow($"Borrar Categoría ({Category.Name})", "Estas seguro? (esta acción no se puede deshacer)", true, () =>
+        MainLayout.DisplayInformationWindow($"Borrar Categoría ({Category?.Name})", "Estas seguro? (esta acción no se puede deshacer)", IsErrorMessage:false ,askForConfirmation: true, () =>
         {
+            if (Category is null)
+            {
+                MainLayout.DisplayInformationWindow("Error", "Couldn't Delete: Category is null", IsErrorMessage: true);
+                return;
+            }
             Category.Categories[Category.Name].Delete();
             Rerender?.Invoke();
         });

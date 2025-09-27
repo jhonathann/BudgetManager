@@ -4,15 +4,23 @@
 
 <div class="colorPalette page">
     <div class="sidebar @SideBarClass">
-        <NavMenu/>
+        <NavMenu />
         <div class="hideOrShowBar" @onclick=ToggleNavMenu>
             @if (SideBarClass == "showSideBar")
             {
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                    <path
+                        d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z" />
+                </svg>
             }
             else
             {
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                    <path
+                        d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
+                </svg>
             }
         </div>
     </div>
@@ -21,18 +29,20 @@
     </main>
     @if (showInformation)
     {
-        <InformationWindow Toggle=@ToggleInformationWindow Title=@InformationTitle Message=@InformationMessage
-            AskForConfirmation=@InformationAskForConfirmation Continue=@InformationContinue Cancel=@InformationCancel />
+        <InformationWindow Toggle=@ToggleInformationWindow IsErrorMessage=@InformationIsErrorMessage Title=@InformationTitle
+            Message=@InformationMessage AskForConfirmation=@InformationAskForConfirmation Continue=@InformationContinue
+            Cancel=@InformationCancel />
     }
     @if (showInput)
     {
         <InputValueWindow Toggle="@ToggleInputWindow" Title="@InputTitle" InputType=@InputType Placeholder=@InputPlaceHolder
-            SubmitAction=@InputSubmitAction RequireDate=@InputRequireDate/>
+            SubmitAction=@InputSubmitAction RequireDate=@InputRequireDate />
     }
 </div>
 @code {
     // Variables to control the information window
     private static bool showInformation = false;
+    private static bool InformationIsErrorMessage { get; set; } = false;
     private static string InformationTitle { get; set; } = "Error";
     private static string InformationMessage { get; set; } = "Message";
     private static bool InformationAskForConfirmation { get; set; } = false;
@@ -60,11 +70,13 @@
     /// <param name="askForConfirmation">Do you want the user to confirm an action?</param>
     /// <param name="continueAction">Action if the user confirms</param>
     /// <param name="cancelAction">Action if the user doesn't confirm</param>
-    public static void DisplayInformationWindow(string title, string message, bool askForConfirmation = false, Action?
+    public static void DisplayInformationWindow(string title, string message, bool IsErrorMessage = false, bool
+    askForConfirmation = false, Action?
     continueAction = null, Action? cancelAction = null)
     {
         InformationMessage = message;
         InformationTitle = title;
+        InformationIsErrorMessage = IsErrorMessage;
         InformationAskForConfirmation = askForConfirmation;
         InformationContinue = continueAction;
         InformationCancel = cancelAction;
@@ -78,7 +90,8 @@
     /// <param name="placeholder">The placeholder for the field</param>
     /// <param name="submitAction">The accion to be performed (it recieves the value of the user input)</param>
     /// <param name="requireDate">If the input requires also requires a date</param>
-    public static void DisplayInputValueWindow(string title, string type, string placeholder, Action<InputParameters>? submitAction,bool requireDate=false)
+    public static void DisplayInputValueWindow(string title, string type, string placeholder, Action<InputParameters>?
+    submitAction, bool requireDate = false)
     {
         InputTitle = title;
         InputType = type;

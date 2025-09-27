@@ -29,7 +29,7 @@
     }
     private void Delete()
     {
-        MainLayout.DisplayInformationWindow($"Borrar Movimiento", "Estas seguro? (esta acción no se puede deshacer)", true, ()
+        MainLayout.DisplayInformationWindow($"Borrar Movimiento", "Estas seguro? (esta acción no se puede deshacer)",IsErrorMessage: false, askForConfirmation: true, ()
         =>
         {
             OnDelete?.Invoke();

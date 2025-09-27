@@ -13,21 +13,21 @@ public class Category
         //First check if the name is already in the dictionary
         if (Categories.ContainsKey(name))
         {
-            MainLayout.DisplayInformationWindow("Error", "Ya existe una categoría con este nombre");
+            MainLayout.DisplayInformationWindow("Error", "Ya existe una categoría con este nombre", IsErrorMessage: true);
             return;
         }
         Name = name;
         Categories.Add(Name, this);
         CategoryCreated?.Invoke(this);
         //Uploads the data to the database
-        if (uploadData) DatabaseManager.UploadToDatabase.Invoke("CategoryTree",CategoryTreeSerializer.Serialize());
+        if (uploadData) DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
     }
     public void Rename(string newName)
     {
         //First check if the name is already in the dictionary
         if (Categories.ContainsKey(newName))
         {
-            MainLayout.DisplayInformationWindow("Error", "Ya existe una categoría con este nombre");
+            MainLayout.DisplayInformationWindow("Error", "Ya existe una categoría con este nombre", IsErrorMessage: true);
             return;
         }
         string previousName = Name;

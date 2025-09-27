@@ -1,11 +1,11 @@
 <div class="general">
-    <div class="container">
+    <div class="container @(IsErrorMessage ? "error" : "")">
         <h1>@Title</h1>
         <h2>@Message</h2>
         <div class="buttonsContainer">
             @if (!AskForConfirmation)
             {
-                <button @onclick=OkButton>Ok</button>
+                <button class="okButton" @onclick=OkButton>Ok</button>
             }
             else
             {
@@ -19,6 +19,8 @@
 @code {
     [Parameter]
     public Action? Toggle { get; set; }
+    [Parameter]
+    public bool IsErrorMessage { get; set; }
     [Parameter]
     public string? Title { get; set; }
     [Parameter]
