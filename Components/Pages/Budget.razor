@@ -88,7 +88,8 @@
      private async void UpdateInfo(int newYear, int newMonth)
      {
           if (newYear > DateTime.Now.Year) return;
-          if (newMonth < 1 || newMonth > DateTime.Now.Month) return;
+          if (newMonth < 1 || newMonth > 12) return;
+          if (newYear == DateTime.Now.Year && newMonth > DateTime.Now.Month) return;
           year = newYear;
           month = newMonth;
           budgetMonth = await BudgetMonth.GetBudgetMonth(year, month);
