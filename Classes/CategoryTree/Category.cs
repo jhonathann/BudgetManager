@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 public class Category
 {
     public static event Action<Category>? CategoryCreated;
-    public static event Action<Category, string>? CategoryRenamed;
+    public static event Action<Category>? CategoryRenamed;
     public static event Action<Category>? CategoryDeleted;
     // Used exclusively for O(1) name uniqueness checks
     public static Dictionary<string, Category> CategoriesByName { get; private set; } = new();
@@ -68,7 +68,7 @@ public class Category
         CategoriesByName.Remove(previousName);
         Name = newName;
         CategoriesByName.Add(Name, this);
-        CategoryRenamed?.Invoke(this, previousName);
+        CategoryRenamed?.Invoke(this);
         DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
     }
     public void SoftDelete()

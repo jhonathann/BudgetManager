@@ -1,3 +1,4 @@
+using BudgetManager.Components.Layout;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -21,6 +22,14 @@ public class Movement
         Amount = amount;
         RubroId = rubroId;
         CreationDate = creationDate;
-        Rubro = Rubro.RubrosById[rubroId];
+        // CategoryTree is always loaded before BudgetMonths in Home.OnInitializedAsync,
+        // and soft deletes keep rubros in RubrosById permanently — this should never fail.
+        if (!Rubro.RubrosById.TryGetValue(rubroId, out var rubro))
+        {
+            MainLayout.DisplayInformationWindow("Error", $"No se encontró el rubro con id: {rubroId}", IsErrorMessage: true);
+            Rubro = default!;
+            return;
+        }
+        Rubro = rubro;
     }
 }

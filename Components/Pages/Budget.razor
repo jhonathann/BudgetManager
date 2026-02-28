@@ -82,7 +82,7 @@
           budgetMonth = await BudgetMonth.GetBudgetMonth(year, month);
           //Subscribe to category events to rerender
           Category.CategoryCreated += (category) => this.StateHasChanged();
-          Category.CategoryRenamed += (category, newName) => this.StateHasChanged();
+          Category.CategoryRenamed += (category) => this.StateHasChanged();
           Category.CategoryDeleted += (category) => this.StateHasChanged();
      }
      private async void UpdateInfo(int newYear, int newMonth)
