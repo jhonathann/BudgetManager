@@ -19,7 +19,7 @@
           }
      </div>
     <div class="rubrosContainer">
-        @foreach (KeyValuePair<string, Rubro> rubroKvp in Concept.Rubros)
+        @foreach (KeyValuePair<Guid, Rubro> rubroKvp in Concept.RubrosById.Where(kvp => !kvp.Value.IsDeleted))
         {
             <RubroCard Rubro=rubroKvp.Value Rerender="()=>this.StateHasChanged()"/>
         }
@@ -58,7 +58,7 @@
      {
           MainLayout.DisplayInformationWindow($"Borrar Concepto ({Concept.Name})", "Estas seguro? (esta acción no se puede deshacer)",IsErrorMessage:false, true, () =>
         {
-            Concept.Delete();
+            Concept.SoftDelete();
             Rerender?.Invoke();
         });
      }

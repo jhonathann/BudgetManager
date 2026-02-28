@@ -1,4 +1,4 @@
-@page "/CategoryView/{*categoryName}"
+@page "/CategoryView/{CategoryId:guid}"
 
 @*Use of Catch-all route parameters *@
 
@@ -7,7 +7,7 @@
           <h1>@category.Name</h1>
      </div>
 
-     @foreach (KeyValuePair<string, Concept> conceptKvp in category.Concepts)
+     @foreach (KeyValuePair<Guid, Concept> conceptKvp in category.ConceptsById.Where(kvp => !kvp.Value.IsDeleted))
      {
           <ConceptCard Concept=conceptKvp.Value Rerender="() => this.StateHasChanged()" />
      }
@@ -23,13 +23,13 @@
 
 @code {
      [Parameter]
-     public string CategoryName { get; set; } = "";
+     public Guid CategoryId { get; set; }
      Category category = default!;
 
      protected override void OnParametersSet()
      {
           base.OnParametersSet();
-          category = Category.Categories[CategoryName];
+          category = Category.CategoriesById[CategoryId];
      }
      void AddConceptButtonOnClick()
      {

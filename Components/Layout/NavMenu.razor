@@ -31,7 +31,7 @@
     </a>
     <div class="separador"></div>
     <p>Categorías</p>
-    @foreach (KeyValuePair<string, Category> categoryKvp in Category.Categories)
+    @foreach (KeyValuePair<Guid, Category> categoryKvp in Category.CategoriesById.Where(kvp => !kvp.Value.IsDeleted))
     {
         <CategoryMenuTab Category=@categoryKvp.Value Rerender="() => StateHasChanged()" />
     }

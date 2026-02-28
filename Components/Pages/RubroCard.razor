@@ -49,7 +49,7 @@
         MainLayout.DisplayInformationWindow($"Borrar Rubro ({Rubro.Name})", "Estas seguro? (esta acción no se puede deshacer)",IsErrorMessage: false,
         askForConfirmation: true, () =>
         {
-            Rubro.Delete();
+            Rubro.SoftDelete();
             Rerender?.Invoke();
         });
     }

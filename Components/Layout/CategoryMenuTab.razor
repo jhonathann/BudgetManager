@@ -1,4 +1,4 @@
-<a class="tab" href="CategoryView/@Category?.Name" @onmouseenter=OnMouseEnter @onmouseleave=OnMouseLeave>
+<a class="tab" href="CategoryView/@Category?.Id" @onmouseenter=OnMouseEnter @onmouseleave=OnMouseLeave>
      @if (showOptions)
      {
           <svg @onclick=Delete  class="trashCan" xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@
                 MainLayout.DisplayInformationWindow("Error", "Couldn't Edit: Category is null", IsErrorMessage: true);
                 return;
             }
-            Category.Categories[Category.Name].Rename(inputParameter.Value);
+            Category.Rename(inputParameter.Value);
             this.StateHasChanged();
         });
     }
@@ -53,7 +53,7 @@
                 MainLayout.DisplayInformationWindow("Error", "Couldn't Delete: Category is null", IsErrorMessage: true);
                 return;
             }
-            Category.Categories[Category.Name].Delete();
+            Category.SoftDelete();
             Rerender?.Invoke();
         });
     }

@@ -1,48 +1,83 @@
 using BudgetManager.Components.Layout;
+using System.Text.Json.Serialization;
 
 public class Category
 {
     public static event Action<Category>? CategoryCreated;
     public static event Action<Category, string>? CategoryRenamed;
     public static event Action<Category>? CategoryDeleted;
-    public static Dictionary<string, Category> Categories { get; private set; } = new();
+    // Used exclusively for O(1) name uniqueness checks
+    public static Dictionary<string, Category> CategoriesByName { get; private set; } = new();
+    public static Dictionary<Guid, Category> CategoriesById { get; private set; } = new();
+    public Guid Id { get; private set; }
     public string Name { get; private set; } = "";
-    public Dictionary<string, Concept> Concepts { get; private set; } = new();
-    public Category(string name, bool uploadData = true)
+    public bool IsDeleted { get; private set; } = false;
+    // Used exclusively for O(1) concept name uniqueness checks within this category
+    [JsonIgnore]
+    public Dictionary<string, Concept> ConceptsByName { get; private set; } = new();
+    public Dictionary<Guid, Concept> ConceptsById { get; private set; } = new();
+    public Category(string name, Guid categoryId = default, bool isDeleted = false, bool uploadData = true)
     {
-        //First check if the name is already in the dictionary
-        if (Categories.ContainsKey(name))
+        if (categoryId == default)
         {
-            MainLayout.DisplayInformationWindow("Error", "Ya existe una categoría con este nombre", IsErrorMessage: true);
-            return;
+            // New category
+            if (CategoriesByName.ContainsKey(name))
+            {
+                MainLayout.DisplayInformationWindow("Error", "Ya existe una categoría con este nombre", IsErrorMessage: true);
+                return;
+            }
+            Id = Guid.CreateVersion7();
+            IsDeleted = false;
+            Name = name;
+            CategoriesByName.Add(Name, this);
+            CategoriesById.Add(Id, this);
+            CategoryCreated?.Invoke(this);
+            if (uploadData) DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
         }
-        Name = name;
-        Categories.Add(Name, this);
-        CategoryCreated?.Invoke(this);
-        //Uploads the data to the database
-        if (uploadData) DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
+        else if (!isDeleted)
+        {
+            // Loading active category from DB
+            if (CategoriesByName.ContainsKey(name))
+            {
+                MainLayout.DisplayInformationWindow("Error", "Ya existe una categoría con este nombre", IsErrorMessage: true);
+                return;
+            }
+            Id = categoryId;
+            IsDeleted = false;
+            Name = name;
+            CategoriesByName.Add(Name, this);
+            CategoriesById.Add(Id, this);
+        }
+        else
+        {
+            // Loading soft-deleted category from DB — only in CategoriesById for movement resolution
+            Id = categoryId;
+            IsDeleted = true;
+            Name = name;
+            CategoriesById.Add(Id, this);
+        }
     }
     public void Rename(string newName)
     {
-        //First check if the name is already in the dictionary
-        if (Categories.ContainsKey(newName))
+        if (CategoriesByName.ContainsKey(newName))
         {
             MainLayout.DisplayInformationWindow("Error", "Ya existe una categoría con este nombre", IsErrorMessage: true);
             return;
         }
         string previousName = Name;
-        Categories.Remove(previousName);
+        CategoriesByName.Remove(previousName);
         Name = newName;
-        Categories.Add(Name, this);
+        CategoriesByName.Add(Name, this);
         CategoryRenamed?.Invoke(this, previousName);
-        //Uploads the data to the database
         DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
     }
-    public void Delete()
+    public void SoftDelete()
     {
-        Categories.Remove(Name);
+        IsDeleted = true;
+        CategoriesByName.Remove(Name);
+        foreach (Concept concept in ConceptsById.Values)
+            concept.SoftDelete(writeToDb: false);
         CategoryDeleted?.Invoke(this);
-        //Uploads the data to the database
         DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
     }
 }

@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using BudgetManager;
 using BudgetManager.Components.Layout;
 using Microsoft.Azure.Cosmos;
@@ -60,7 +62,7 @@ public static class DatabaseManager
      {
           Debug.Print("Status Code: " + itemResponse.StatusCode.ToString());
           Debug.Print("Request Charge: " + itemResponse.RequestCharge.ToString());
-          Debug.Print("JsonString: " + itemResponse.Resource.JsonString);
+          Debug.Print("JsonString: " + JToken.Parse(itemResponse.Resource.JsonString).ToString(Formatting.Indented));
      }
 
 }

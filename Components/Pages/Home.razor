@@ -12,20 +12,20 @@
             </div>
             <div class="container">
                 <h2>Dinero Restante</h2>
-                    @foreach (KeyValuePair<string, float> remainingMoneyKvp in month.RemainingMoney)
+                    @foreach (KeyValuePair<Guid, float> remainingMoneyKvp in month.RemainingMoney)
                     {
                     <div class="info">
-                        <p>@remainingMoneyKvp.Key</p>
+                        <p>@(Category.CategoriesById.TryGetValue(remainingMoneyKvp.Key, out Category? remainingCat) ? remainingCat.Name : remainingMoneyKvp.Key.ToString())</p>
                         <p>@String.Format("{0:c0}", remainingMoneyKvp.Value)</p>
                     </div>
                     }
             </div>
             <div class="container">
                 <h2>Dinero Gastado</h2>
-                    @foreach (KeyValuePair<string, float> spendedMoneyKvp in month.SpendedMoney)
+                    @foreach (KeyValuePair<Guid, float> spendedMoneyKvp in month.SpendedMoney)
                     {
                     <div class="info">
-                        <p>@spendedMoneyKvp.Key</p>
+                        <p>@(Category.CategoriesById.TryGetValue(spendedMoneyKvp.Key, out Category? spendedCat) ? spendedCat.Name : spendedMoneyKvp.Key.ToString())</p>
                         <p>@String.Format("{0:c0}", spendedMoneyKvp.Value)</p>
                     </div>
                     }

@@ -21,6 +21,6 @@ public class Movement
         Amount = amount;
         RubroId = rubroId;
         CreationDate = creationDate;
-        Rubro = Rubro.Rubros[rubroId];
+        Rubro = Rubro.RubrosById[rubroId];
     }
 }

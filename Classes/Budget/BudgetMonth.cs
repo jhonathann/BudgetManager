@@ -8,50 +8,44 @@ public class BudgetMonth
      public int Year { get; private set; }
      public int Month { get; private set; }
      public float Income { get; private set; }
-     public Dictionary<string, float> CategoryBudgets { get; private set; } = new();
+     public Dictionary<Guid, float> CategoryBudgets { get; private set; } = new();
      public List<Movement> Movements { get; private set; } = new();
      [JsonIgnore]
-     public Dictionary<string, float> RemainingMoney { get; private set; } = new();
+     public Dictionary<Guid, float> RemainingMoney { get; private set; } = new();
      [JsonIgnore]
-     public Dictionary<string, float> SpendedMoney { get; private set; } = new();
+     public Dictionary<Guid, float> SpendedMoney { get; private set; } = new();
      public BudgetMonth(int year, int month)
      {
           //Only Modifies present and future months
           if (year >= DateTime.Now.Year && month >= DateTime.Now.Month)
           {
-               //Subscribes to the Category events
                Category.CategoryCreated += OnCategoryCreated;
-               Category.CategoryRenamed += OnCategoryRenamed;
                Category.CategoryDeleted += OnCategoryDeleted;
           }
-          //Checks if the month is valid
           if (month < 1 || month > 12)
           {
                throw new Exception("Month not valid");
           }
           Year = year;
           Month = month;
-          //Adds all the current categories
-          foreach (KeyValuePair<string, Category> categoryKvp in Category.Categories)
+          //Adds all active categories
+          foreach (Category category in Category.CategoriesById.Values.Where(c => !c.IsDeleted))
           {
-               CategoryBudgets.Add(categoryKvp.Value.Name, 0);
+               CategoryBudgets.Add(category.Id, 0);
           }
           //Adds the BudgetMonth to the static dictionary
           BudgetMonths.Add((Year, Month), this);
           CalculateAnalytics();
      }
      [JsonConstructor]
-     public BudgetMonth(int year, int month, float income, Dictionary<string, float> categoryBudgets, List<Movement> movements)
+     public BudgetMonth(int year, int month, float income, Dictionary<Guid, float> categoryBudgets, List<Movement> movements)
      {
           //Only Modifies present and future months
           if (year >= DateTime.Now.Year && month >= DateTime.Now.Month)
           {
-               //Subscribes to the Category events
                Category.CategoryCreated += OnCategoryCreated;
-               Category.CategoryRenamed += OnCategoryRenamed;
                Category.CategoryDeleted += OnCategoryDeleted;
           }
-          //Checks if the month is valid
           if (month < 1 || month > 12)
           {
                throw new Exception("Month not valid");
@@ -69,7 +63,7 @@ public class BudgetMonth
      private void CalculateAnalytics()
      {
           //Updates the remaining money dictionary
-          foreach (KeyValuePair<string, float> catBudgetKvp in CategoryBudgets)
+          foreach (KeyValuePair<Guid, float> catBudgetKvp in CategoryBudgets)
           {
                if (RemainingMoney.ContainsKey(catBudgetKvp.Key))
                {
@@ -82,14 +76,15 @@ public class BudgetMonth
           }
           foreach (Movement movement in Movements)
           {
-               string categoryName = movement.Rubro.Concept.Category.Name;
-               if (RemainingMoney.ContainsKey(categoryName))
+               if (movement.Rubro is null) continue;
+               Guid categoryId = movement.Rubro.Concept.Category.Id;
+               if (RemainingMoney.ContainsKey(categoryId))
                {
-                    RemainingMoney[categoryName] -= movement.Amount;
+                    RemainingMoney[categoryId] -= movement.Amount;
                }
           }
           //Update the SpendedMoney Dictionary
-          foreach (KeyValuePair<string, float> remainingMoneyKvp in RemainingMoney)
+          foreach (KeyValuePair<Guid, float> remainingMoneyKvp in RemainingMoney)
           {
                if (SpendedMoney.ContainsKey(remainingMoneyKvp.Key))
                {
@@ -131,9 +126,9 @@ public class BudgetMonth
           SaveToDatabase();
           CalculateAnalytics();
      }
-     public void ModifyBudget(string categoryName, float newValue)
+     public void ModifyBudget(Guid categoryId, float newValue)
      {
-          CategoryBudgets[categoryName] = newValue;
+          CategoryBudgets[categoryId] = newValue;
           SaveToDatabase();
           CalculateAnalytics();
      }
@@ -151,24 +146,15 @@ public class BudgetMonth
      }
      private void OnCategoryCreated(Category createdCategory)
      {
-          CategoryBudgets.Add(createdCategory.Name, 0);
+          CategoryBudgets.Add(createdCategory.Id, 0);
           SaveToDatabase();
-          CalculateAnalytics();
-     }
-     private void OnCategoryRenamed(Category category, string previousName)
-     {
-          float currentBudget = CategoryBudgets[previousName];
-          CategoryBudgets.Remove(previousName);
-          CategoryBudgets.Add(category.Name, currentBudget);
-          SaveToDatabase();
-          RemainingMoney.Remove(previousName);
           CalculateAnalytics();
      }
      private void OnCategoryDeleted(Category category)
      {
-          CategoryBudgets.Remove(category.Name);
+          CategoryBudgets.Remove(category.Id);
           SaveToDatabase();
-          RemainingMoney.Remove(category.Name);
+          RemainingMoney.Remove(category.Id);
           CalculateAnalytics();
      }
 

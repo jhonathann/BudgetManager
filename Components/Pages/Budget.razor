@@ -48,12 +48,12 @@
                     <h3>Amount (COP)</h3>
                     <h3>Amount (%)</h3>
                </div>
-               @foreach (KeyValuePair<string, float> categoryKvp in budgetMonth.CategoryBudgets)
+               @foreach (KeyValuePair<Guid, float> categoryKvp in budgetMonth.CategoryBudgets)
                {
-                    @if (Category.Categories.ContainsKey(categoryKvp.Key))
+                    @if (Category.CategoriesById.TryGetValue(categoryKvp.Key, out Category? cat) && !cat.IsDeleted)
                     {
                          <div class="budgetInfo">
-                              <p>@categoryKvp.Key</p>
+                              <p>@cat.Name</p>
                               <p>@String.Format("{0:c0}", (budgetMonth.Income * categoryKvp.Value / 100))</p>
                               <input type="number" value="@categoryKvp.Value"
                                    @onchange="(ChangeEventArgs args) => OnBudgetModified(args, categoryKvp.Key)">
@@ -62,8 +62,8 @@
                     else
                     {
                          <div class="budgetInfo missingCategory">
-                              <p>@categoryKvp.Key</p>
-                              <p>@(budgetMonth.Income* categoryKvp.Value / 100)</p>
+                              <p>@(Category.CategoriesById.TryGetValue(categoryKvp.Key, out Category? deletedCat) ? deletedCat.Name : categoryKvp.Key.ToString())</p>
+                              <p>@(budgetMonth.Income * categoryKvp.Value / 100)</p>
                               <input type="number" value="@categoryKvp.Value"
                                    @onchange="(ChangeEventArgs args) => OnBudgetModified(args, categoryKvp.Key)">
                          </div>
@@ -102,11 +102,11 @@
           return months[month - 1];
      }
 
-     private void OnBudgetModified(ChangeEventArgs args, string categoryName)
+     private void OnBudgetModified(ChangeEventArgs args, Guid categoryId)
      {
           if (float.TryParse(args?.Value?.ToString(), out float newValue))
           {
-               budgetMonth.ModifyBudget(categoryName, newValue);
+               budgetMonth.ModifyBudget(categoryId, newValue);
                UpdateInfo(year, month);//To trigger immediate update of the page
           }
           else
