@@ -31,8 +31,9 @@ public class Rubro
             Concept.RubrosById.Add(Id, this);
             RubrosById.Add(Id, this);
             DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
+            return;
         }
-        else if (!isDeleted)
+        if (!isDeleted)
         {
             // Loading active rubro from DB
             if (concept.RubrosByName.ContainsKey(name))
@@ -47,17 +48,15 @@ public class Rubro
             Concept.RubrosByName.Add(Name, this);
             Concept.RubrosById.Add(rubroId, this);
             RubrosById.Add(rubroId, this);
+            return;
         }
-        else
-        {
-            // Loading soft-deleted rubro from DB — in RubrosById and parent RubrosById for serialization, not in RubrosByName
-            Id = rubroId;
-            IsDeleted = true;
-            Name = name;
-            Concept = concept;
-            Concept.RubrosById.Add(rubroId, this);
-            RubrosById.Add(rubroId, this);
-        }
+        // Loading soft-deleted rubro from DB — in RubrosById and parent RubrosById for serialization, not in RubrosByName
+        Id = rubroId;
+        IsDeleted = true;
+        Name = name;
+        Concept = concept;
+        Concept.RubrosById.Add(rubroId, this);
+        RubrosById.Add(rubroId, this);
     }
     public void Rename(string newName)
     {

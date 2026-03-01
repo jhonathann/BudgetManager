@@ -33,8 +33,9 @@ public class Category
             CategoriesById.Add(Id, this);
             CategoryCreated?.Invoke(this);
             if (uploadData) DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
+            return;
         }
-        else if (!isDeleted)
+        if (!isDeleted)
         {
             // Loading active category from DB
             if (CategoriesByName.ContainsKey(name))
@@ -47,15 +48,13 @@ public class Category
             Name = name;
             CategoriesByName.Add(Name, this);
             CategoriesById.Add(Id, this);
+            return;
         }
-        else
-        {
-            // Loading soft-deleted category from DB — only in CategoriesById for movement resolution
-            Id = categoryId;
-            IsDeleted = true;
-            Name = name;
-            CategoriesById.Add(Id, this);
-        }
+        // Loading soft-deleted category from DB — only in CategoriesById for movement resolution
+        Id = categoryId;
+        IsDeleted = true;
+        Name = name;
+        CategoriesById.Add(Id, this);
     }
     public void Rename(string newName)
     {

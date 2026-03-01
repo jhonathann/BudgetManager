@@ -111,14 +111,8 @@ public class BudgetMonth
           if (jsonString is not null)
           {
                BudgetMonth? budgetMonth = JsonSerializer.Deserialize<BudgetMonth>(jsonString);
-               if (budgetMonth is not null)
-               {
-                    return budgetMonth;
-               }
-               else
-               {
-                    MainLayout.DisplayInformationWindow("Error: ", $"Fail to deserialize the BudgetMonth:({year},{month})", IsErrorMessage: true);
-               }
+               if (budgetMonth is not null) return budgetMonth;
+               MainLayout.DisplayInformationWindow("Error: ", $"Fail to deserialize the BudgetMonth:({year},{month})", IsErrorMessage: true);
           }
           //Create a new month, inheriting carry-over from the previous month if it exists
           int previousMonth = month == 1 ? 12 : month - 1;

@@ -36,8 +36,9 @@ public class Concept
             Category.ConceptsById.Add(Id, this);
             ConceptsById.Add(Id, this);
             if (uploadData) DatabaseManager.UploadToDatabase.Invoke("CategoryTree", CategoryTreeSerializer.Serialize());
+            return;
         }
-        else if (!isDeleted)
+        if (!isDeleted)
         {
             // Loading active concept from DB
             if (category.ConceptsByName.ContainsKey(name))
@@ -52,17 +53,15 @@ public class Concept
             Category.ConceptsByName.Add(Name, this);
             Category.ConceptsById.Add(Id, this);
             ConceptsById.Add(Id, this);
+            return;
         }
-        else
-        {
-            // Loading soft-deleted concept from DB — in ConceptsById and parent ConceptsById for serialization, not in ConceptsByName
-            Id = conceptId;
-            IsDeleted = true;
-            Name = name;
-            Category = category;
-            Category.ConceptsById.Add(Id, this);
-            ConceptsById.Add(Id, this);
-        }
+        // Loading soft-deleted concept from DB — in ConceptsById and parent ConceptsById for serialization, not in ConceptsByName
+        Id = conceptId;
+        IsDeleted = true;
+        Name = name;
+        Category = category;
+        Category.ConceptsById.Add(Id, this);
+        ConceptsById.Add(Id, this);
     }
     public void Rename(string newName)
     {
